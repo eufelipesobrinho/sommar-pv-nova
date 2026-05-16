@@ -121,7 +121,7 @@ export default function App() {
       {/* HEADER ESTRATÉGICO */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#040404]/80 border-b border-border/40">
         <div className="max-w-5xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:get-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <img src="/favicon.jpg" alt="Sommar App Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-contain" />
             <span className="text-lg sm:text-xl font-extrabold tracking-tight">
               <span className="text-[#22C55E]">Sommar</span> <span className="text-white">App</span>
@@ -312,7 +312,7 @@ export default function App() {
           <div className="text-center max-w-xl mx-auto mb-14">
             <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Método Concreto</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">Funcionalidades de <span className="text-[#22C55E]">Alto Valor</span></h2>
-            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problema real de quem precisa controlar finanças com profissionalismo estruturado.</p>
+            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problem real de quem precisa controlar finanças com profissionalismo estruturado.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-16">
@@ -383,7 +383,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 8. ARSENAL DE BÔNUS (REESTRUTURADO) */}
+        {/* 8. ARSENAL DE BÔNUS */}
         <section className="max-w-4xl mx-auto px-4 py-20">
           <div className="text-center max-w-xl mx-auto mb-14">
             <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Arsenal de Bônus</span>
@@ -466,6 +466,10 @@ export default function App() {
                   <a href="https://pay.cakto.com.br/ni9nrpf_687767" target="_blank" rel="noreferrer" className="w-full text-center block bg-white/5 text-white border border-border text-[11px] font-extrabold uppercase tracking-widest py-3.5 rounded-xl hover:bg-white/10 transition-colors">
                     ATIVAR PLANO MENSAL •
                   </a>
+                  <div className="flex justify-between items-center text-[10px] text-neutral-500 font-bold uppercase tracking-wider pt-3 px-1">
+                    <span>🔒 Pagamento Seguro</span>
+                    <span>⚡ Liberação Imediata</span>
+                  </div>
                 </div>
               </div>
 
@@ -480,13 +484,13 @@ export default function App() {
                   <p className="text-[11px] text-muted-foreground mt-1">Para empresários que jogam sério.</p>
                   
                   <div className="my-6">
-                    <span className="text-neutral-500 line-through text-[11px] font-bold block">R$ 478,80</span>
+                    <span className="text-neutral-500 line-through text-[11px] font-bold block">R$ 397,00</span>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-xs font-bold text-muted-foreground">R$</span>
                       <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297</span>
                       <span className="text-[10px] font-bold text-neutral-500"> /ano</span>
                     </div>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-1 uppercase tracking-wider">ou 12x de R$ 30,76 (ECONOMIZE + DE R$ 180)</p>
+                    <p className="text-[9px] text-[#22C55E] font-bold mt-1 uppercase tracking-wider">ou 12x de R$ 30,76 (ECONOMIZE + DE R$ 100)</p>
                   </div>
 
                   <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
@@ -563,7 +567,7 @@ export default function App() {
         {/* 10. SOBRE O CRIADOR - ABOUT SECTION */}
         <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40">
           <div className="grid md:grid-cols-3 gap-8 items-center max-w-3xl mx-auto">
-            <div className="md:col-span-1 relative mx-auto w-full max-w-[200px] rounded-2xl border border-border p-1.5 bg-[#0a0a0a]">
+            <div className="md:col-span-1 rounded-2xl border border-border p-1.5 bg-[#0a0a0a] max-w-[200px] mx-auto relative">
               <img src="/felipe-sobrinho.jpg" alt="Felipe — Criador do Sommar App" className="w-full h-auto rounded-xl object-cover" />
               <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-md whitespace-nowrap">Idealizador do Sommar</div>
             </div>
@@ -574,7 +578,7 @@ export default function App() {
                 Muito prazer, eu sou o <strong className="text-white">Felipe</strong>, idealizador do Sommar App.
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                Criei o Sommar porque, além de sentir, percebi a frustração das pessoas ao usar planilhas que não se adequam à vida real. Eu precisava de algo que atendesse o maior número de pessoas, e o maior número de realidades.
+                Criei o Sommar because, além de sentir, percebi a frustração das pessoas ao usar planilhas que não se adequam à vida real. Eu precisava de algo que atendesse o maior número de pessoas, e o maior número de realidades.
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                 Como não encontrei a ferramenta perfeita, <span className="text-[#22C55E] font-bold">decidi construí-la.</span> O Sommar é o resultado de um trabalho focado em entregar segurança, design premium e, acima de tudo, flexibilidade para quem é CLT, freelancer ou empreendedor.
