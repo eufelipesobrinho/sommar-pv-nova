@@ -43,7 +43,7 @@ export default function App() {
             event_source_url: window.location.href,
           }]
         })
-      }).catch(err => console.log("CAPI log isolado"));
+      }).catch(() => {});
     }
   }, [currentPage]);
 
