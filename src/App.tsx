@@ -93,6 +93,13 @@ export default function App() {
             </div>
           </div>
 
+          <div className="w-full text-left p-6 rounded-2xl gradient-border mb-8 bg-[#0a0a0a]/50">
+            <h4 className="text-xs font-extrabold text-white uppercase mb-3 tracking-wider">Dúvidas? Fale direto comigo:</h4>
+            <a href="https://wa.me/5586999568422" target="_blank" rel="noreferrer" className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-black font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl transition-transform hover:scale-[1.01]">
+              Chamar no WhatsApp
+            </a>
+          </div>
+
           <a href="https://app.sommarapp.com.br" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-8 py-4 rounded-xl shadow-xl shadow-[#22C55E]/10 hover:scale-[1.02] transition-all duration-200">
             Ir para a Área de Membros <ArrowRight className="w-4 h-4" />
           </a>
@@ -113,41 +120,54 @@ export default function App() {
       
       {/* HEADER ESTRATÉGICO */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#040404]/80 border-b border-border/40">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/favicon.jpg" alt="Sommar App Logo" className="w-10 h-10 rounded-lg object-contain" />
-            <span className="text-xl font-extrabold tracking-tight">
+        <div className="max-w-5xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:get-3">
+            <img src="/favicon.jpg" alt="Sommar App Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-contain" />
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight">
               <span className="text-[#22C55E]">Sommar</span> <span className="text-white">App</span>
             </span>
           </div>
-          <button onClick={scrollToPricing} className="bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-5 py-3 rounded-xl hover:scale-[1.02] transition-transform duration-200 shadow-md shadow-[#22C55E]/10 animate-pulse-glow">
+          <button onClick={scrollToPricing} className="bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-widest px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl hover:scale-[1.02] transition-transform duration-200 shadow-md shadow-[#22C55E]/10 animate-pulse-glow">
             ATIVAR MINHA DIREÇÃO LUCRATIVA
           </button>
         </div>
       </header>
 
-      <main className="pt-24">
+      <main className="pt-20 sm:pt-24">
         
         {/* 1. HERO SECTION - CPF x CNPJ */}
-        <section className="max-w-4xl mx-auto px-4 pt-16 pb-20 text-center">
+        <section className="max-w-4xl mx-auto px-4 pt-12 sm:pt-16 pb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-white/[0.02] mb-6">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-white/80">Seu Consultor Estratégico IA 24h</span>
+            <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">Seu Consultor Estratégico IA 24h</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white leading-[1.2] mb-6">
+          <h1 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white leading-[1.2] mb-6 max-w-3xl mx-auto">
             Saiba se sua empresa está lucrando ou se você está <span className="text-[#22C55E]">pagando para trabalhar</span> em menos de 1 minuto.
           </h1>
           
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto mb-10 font-medium leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
             O Sommar processa seus extratos automaticamente, separa o CPF do CNPJ e te entrega o lucro real. <span className="text-[#22C55E]">Sem planilhas, sem erros e sem perda de tempo.</span>
           </p>
 
+          {/* VÍDEO DE DEMONSTRAÇÃO COMPATÍVEL MOBILE */}
+          <div className="max-w-2xl mx-auto w-full mb-10 rounded-2xl border border-border bg-[#0a0a0a] p-2 shadow-2xl card-glow">
+            <div className="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden">
+              <iframe 
+                className="absolute top-0 left-0 w-full h-full border-0"
+                src="https://www.youtube.com/embed/YfYAfW8kFO4" 
+                title="Vídeo de demonstração Sommar App"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+
           <div className="flex flex-col items-center justify-center gap-4">
-            <button onClick={scrollToPricing} className="inline-flex items-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-10 py-5 rounded-xl shadow-2xl shadow-[#22C55E]/20 hover:scale-[1.03] transition-all duration-200">
+            <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs sm:text-sm uppercase tracking-widest px-10 py-5 rounded-xl shadow-2xl shadow-[#22C55E]/20 hover:scale-[1.03] transition-all duration-200">
               QUERO MEU CONSULTOR IA AGORA <ArrowRight className="w-4 h-4" />
             </button>
-            <p className="text-[11px] text-muted-foreground font-medium mt-1">
+            <p className="text-[10px] sm:text-[11px] text-muted-foreground font-medium mt-1">
               Veja como o Marinho IA transforma confusão em <span className="text-[#22C55E]">diagnóstico estratégico</span>
             </p>
           </div>
@@ -159,7 +179,7 @@ export default function App() {
             <span className="text-[10px] font-extrabold bg-red-500/10 border border-red-500/20 text-red-400 uppercase tracking-widest px-3 py-1 rounded-full">Você se Identifica?</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-6 mb-12">O caos de quem <span className="text-red-400">mistura tudo</span></h2>
 
-            <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
+            <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
               <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
                 <div className="w-7 h-7 rounded-full bg-red-500/10 border border-border text-red-500 font-black text-xs flex items-center justify-center">1</div>
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed">Paga fornecedor com o dinheiro do aluguel pessoal</p>
@@ -183,14 +203,14 @@ export default function App() {
         {/* INTERMEZZO DE COPY */}
         <section className="max-w-2xl mx-auto text-center py-16 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground font-medium leading-relaxed">
-            A falta de separação entre CPF e CNPJ cria <strong className="text-white">decisões erradas baseadas em números falsos.</strong> Mas o problem não é você — <span className="text-[#22C55E]">é a falta de uma ferramenta profissional que entenda as duas realidades.</span>
+            A falta de separação entre CPF e CNPJ cria <strong className="text-white">decisões erradas baseadas em números falsos.</strong> Mas o problema não é você — <span className="text-[#22C55E]">é a falta de uma ferramenta profissional que entenda as duas realidades.</span>
           </p>
         </section>
 
-        {/* 3. APRESENTAÇÃO DA SOLUÇÃO (IMAGEM 1) */}
+        {/* 3. APRESENTAÇÃO DA SOLUÇÃO (MOCKUP SMARTPHONE SMART) */}
         <section className="max-w-4xl mx-auto px-4 py-16 border-b border-border/40">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
+            <div className="space-y-4 text-center md:text-left">
               <span className="text-[10px] font-extrabold text-[#22C55E] bg-[#22C55E]/10 border border-[#22C55E]/20 uppercase tracking-widest px-2.5 py-1 rounded-md inline-flex items-center gap-1">
                 ✓ A Solução
               </span>
@@ -202,8 +222,11 @@ export default function App() {
                 QUERO PROFISSIONALIZAR MINHA GESTÃO <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="rounded-2xl gradient-border p-1.5 shadow-2xl card-glow max-w-sm mx-auto">
-              <img src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" className="w-full h-auto rounded-xl object-cover" />
+            
+            {/* MOCK CELULAR 1 */}
+            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
+              <img src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" className="w-full h-full object-cover rounded-[30px]" />
             </div>
           </div>
         </section>
@@ -251,32 +274,35 @@ export default function App() {
         <section className="max-w-xl mx-auto text-center py-12 px-4">
           <h3 className="text-lg font-extrabold text-white uppercase mb-2">Modo Claro ou Escuro? <span className="text-[#22C55E]">Você escolhe.</span></h3>
           <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">O contexto (Pessoal ou Empresarial) <strong className="text-white">não está preso a um tema.</strong> Você usa Pessoal no escuro, Empresarial no claro — ou o oposto.</p>
-          <button onClick={scrollToPricing} className="inline-flex items-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
+          <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
             ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
           </button>
         </section>
 
-        {/* 5. MARINHO IA SECTION (IMAGEM 2) */}
+        {/* 5. MARINHO IA SECTION (MOCK SMARTPHONE CELULAR 2) */}
         <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40 bg-white/[0.005]">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
+            <div className="space-y-4 text-center md:text-left">
               <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-1 rounded-md uppercase tracking-widest inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3" /> Consultor IA 24h
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">Marinho IA: <span className="text-[#22C55E]">O cérebro que lança tudo por você.</span></h2>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
-                <strong className="text-white">Esqueça digitação.</strong> O Marinho agora lê <strong className="text-[#22C55E]">extratos CSV e fotos de comprovantes</strong> — lançando tudo sozinho em segundos.
+                <strong className="text-white">Esqueça digitação manual travada.</strong> O Marinho agora lê <strong className="text-[#22C55E]">mensagens do chat de forma fluida</strong> — interpretando e organizando lançamentos completos de custos em segundos.
               </p>
-              <ul className="flex flex-col gap-2 pt-2 text-xs font-bold uppercase tracking-wide text-white/90">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Importa CSV em segundos</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Lê fotos de comprovantes automaticamente</li>
+              <ul className="flex flex-col gap-2 pt-2 text-xs font-bold uppercase tracking-wide text-white/90 text-left max-w-xs mx-auto md:mx-0">
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Lançamento Inteligente em Massa via Chat</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Inteligência Conversacional Estratégica</li>
               </ul>
               <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
                 ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="rounded-2xl gradient-border p-1.5 shadow-2xl card-glow max-w-sm mx-auto">
-              <img src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" className="w-full h-auto rounded-xl object-cover" />
+            
+            {/* MOCK CELULAR 2 */}
+            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
+              <img src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" className="w-full h-full object-cover rounded-[30px]" />
             </div>
           </div>
         </section>
@@ -291,16 +317,16 @@ export default function App() {
 
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-16">
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
-              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Importação Inteligente (PDF + CSV)</span>
-              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Arraste o PDF ou CSV do seu banco e o parser organiza o mês em <strong className="text-white">15 segundos</strong>. Sem digitação manual, sem perda de tempo.</p>
+              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Lançamento em Massa via Chat</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Mande múltiplos blocos de custos em texto corrido de uma só vez. O parser analisa os dados e processa toda a sua carteira em <strong className="text-white">segundos</strong>.</p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
-              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Gestão de Cartões (Faturas Reais)</span>
-              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Cadastre seus cartões reais com limites e datas de fechamento. Controle faturas de verdade, não estimativas genéricas.</p>
+              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Gestão de Cartões</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Cadastre e gerencie seus cartões com controle estrito de faturas. Acompanhe despesas consolidadas sem burocracia.</p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
               <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Parcelamento Inteligente (Fluxo de Caixa)</span>
-              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Lance compras parceladas uma única vez e veja o impacto no fluxo de caixa futuro. Saiba exatamente quanto do seu dinheiro já está comprometivo.</p>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Lance compras parceladas uma única vez e veja o impacto no fluxo de caixa futuro. Saiba exatamente quanto do seu dinheiro já está comprometido.</p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
               <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Divisão entre Sócios (Multi-Membros)</span>
@@ -308,10 +334,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* REAL TIME ANALYTICS (IMAGEM 3) */}
+          {/* REAL TIME ANALYTICS (MOCK SMARTPHONE CELULAR 3) */}
           <div className="grid md:grid-cols-2 gap-12 items-center bg-white/[0.005] p-6 rounded-2xl border border-border max-w-3xl mx-auto">
-            <div className="space-y-4">
-              <span className="text-[10px] font-extrabold text-[#22C55E] uppercase tracking-widest flex items-center gap-1.5">
+            <div className="space-y-4 text-center md:text-left">
+              <span className="text-[10px] font-extrabold text-[#22C55E] uppercase tracking-widest flex items-center justify-center md:justify-start gap-1.5">
                 <BarChart3 className="w-3.5 h-3.5" /> Análise de Dados
               </span>
               <h3 className="text-xl font-extrabold text-white uppercase tracking-tight">Receitas, despesas e <span className="text-[#22C55E]">projeção patrimonial</span> em tempo real.</h3>
@@ -322,8 +348,11 @@ export default function App() {
                 ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="rounded-2xl gradient-border p-1.5 shadow-2xl card-glow max-w-xs mx-auto">
-              <img src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" className="w-full h-auto rounded-xl object-cover" />
+            
+            {/* MOCK CELULAR 3 */}
+            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
+              <img src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" className="w-full h-full object-cover rounded-[30px]" />
             </div>
           </div>
         </section>
@@ -354,7 +383,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 8. ARSENAL DE BÔNUS */}
+        {/* 8. ARSENAL DE BÔNUS (REESTRUTURADO) */}
         <section className="max-w-4xl mx-auto px-4 py-20">
           <div className="text-center max-w-xl mx-auto mb-14">
             <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Arsenal de Bônus</span>
@@ -366,7 +395,7 @@ export default function App() {
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Bônus Incluso no plano</span>
                 <h4 className="text-xs font-extrabold text-white uppercase">Marinho IA — Gerente Financeiro 24h</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça os formulários complexos. O Marinho lança seus gastos por chat nativo e te entrega o lucro real instantaneamente.</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça formulários engessados. O Marinho gerencia e lança suas despesas por chat nativo, organizando fluxos em segundos.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
@@ -422,9 +451,9 @@ export default function App() {
                   <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-muted-foreground font-medium">
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Importação de PDF e CSV</li>
+                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lançamento em Massa via Chat</li>
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Parcelamento automático de cartão</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de cartões com limites reais</li>
+                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de Cartões consolidada</li>
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Divisão entre sócios e membros</li>
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> PWA — sem ocupar espaço no celular</li>
                     <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
@@ -463,9 +492,9 @@ export default function App() {
                   <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Importação de PDF e CSV</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lançamento em Massa via Chat</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Parcelamento automático de cartão</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de cartões com limites reais</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de Cartões consolidada</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Divisão entre sócios e membros</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> PWA — sem ocupar espaço no celular</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
@@ -531,14 +560,14 @@ export default function App() {
           </div>
         </section>
 
-        {/* 10. SOBRE O CRIADOR - ABOUT SECTION (IMAGEM 4) */}
+        {/* 10. SOBRE O CRIADOR - ABOUT SECTION */}
         <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40">
           <div className="grid md:grid-cols-3 gap-8 items-center max-w-3xl mx-auto">
-            <div className="md:col-span-1 rounded-2xl gradient-border p-1.5 bg-white/[0.01] max-w-[200px] mx-auto">
+            <div className="md:col-span-1 relative mx-auto w-full max-w-[200px] rounded-2xl border border-border p-1.5 bg-[#0a0a0a]">
               <img src="/felipe-sobrinho.jpg" alt="Felipe — Criador do Sommar App" className="w-full h-auto rounded-xl object-cover" />
               <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-md whitespace-nowrap">Idealizador do Sommar</div>
             </div>
-            <div className="md:col-span-2 text-left space-y-3 pt-4 md:pt-0">
+            <div className="md:col-span-2 text-center md:text-left space-y-3 pt-6 md:pt-0">
               <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-0.5 rounded uppercase tracking-widest inline-block">Sobre o Criador</span>
               <h2 className="text-2xl font-extrabold text-white uppercase tracking-tight">Criado por quem <span className="text-[#22C55E]">sentiu a dor na pele.</span></h2>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
