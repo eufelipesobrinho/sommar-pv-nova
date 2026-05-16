@@ -100,9 +100,6 @@ export default function App() {
             </a>
           </div>
 
-          <a href="https://app.sommarapp.com.br" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-8 py-4 rounded-xl shadow-xl shadow-[#22C55E]/10 hover:scale-[1.02] transition-all duration-200">
-            Ir para a Área de Membros <ArrowRight className="w-4 h-4" />
-          </a>
         </main>
 
         <footer className="border-t border-border py-6 text-center text-[10px] font-bold text-white/30 bg-black/40">
