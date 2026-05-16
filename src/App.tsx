@@ -3,9 +3,7 @@ import {
   ArrowRight, 
   CheckCircle2, 
   ChevronDown, 
-  XCircle, 
   Smartphone, 
-  ShieldCheck, 
   Lock,
   Sparkles,
   BarChart3
@@ -27,6 +25,27 @@ export default function App() {
     window.addEventListener('popstate', handleLocation);
     return () => window.removeEventListener('popstate', handleLocation);
   }, []);
+
+  // Disparo assíncrono da API de Conversões (CAPI) - Meta Ads
+  useEffect(() => {
+    if (currentPage === 'vendas') {
+      const PIXEL_ID = "1650440006207697";
+      const CAPI_TOKEN = "EAB4hda1l5Q0BRXIWNYaekyTJ2LraBp2e3o8Mw3UCYrVgZAKmDVmNClZC98nUeBRFePBRuslzWrjpQfK6lsOsAd2sgvRIUm7Y0ZA7EpHtchZBFqs06aNW6ObZBvd0ZAv5mki2FvLiGuDDmKyE47u42fGOYBxNE8xsHPMi5vr4Yxk3bQo6X04CYZBSiLJVIG5tdlRIgZDZD";
+      
+      fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_TOKEN}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: [{
+            event_name: "PageView",
+            event_time: Math.floor(Date.now() / 1000),
+            action_source: "website",
+            event_source_url: window.location.href,
+          }]
+        })
+      }).catch(err => console.log("CAPI log isolado"));
+    }
+  }, [currentPage]);
 
   const scrollToPricing = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -142,15 +161,15 @@ export default function App() {
 
             <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-12">
               <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-destructive text-destructive font-black text-xs flex items-center justify-center">1</div>
+                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-border text-red-500 font-black text-xs flex items-center justify-center">1</div>
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed">Paga fornecedor com o dinheiro do aluguel pessoal</p>
               </div>
               <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-destructive text-destructive font-black text-xs flex items-center justify-center">2</div>
+                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-border text-red-500 font-black text-xs flex items-center justify-center">2</div>
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed">Acha que a empresa deu lucro, mas era o salário pessoal na conta</p>
               </div>
               <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-destructive text-destructive font-black text-xs flex items-center justify-center">3</div>
+                <div className="w-7 h-7 rounded-full bg-red-500/10 border border-border text-red-500 font-black text-xs flex items-center justify-center">3</div>
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed">No fim do mês, não sabe quanto sobrou de verdade</p>
               </div>
             </div>
@@ -164,7 +183,7 @@ export default function App() {
         {/* INTERMEZZO DE COPY */}
         <section className="max-w-2xl mx-auto text-center py-16 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground font-medium leading-relaxed">
-            A falta de separação entre CPF e CNPJ cria <strong className="text-white">decisões erradas baseadas em números falsos.</strong> Mas o problema não é você — <span className="text-[#22C55E]">é a falta de uma ferramenta profissional que entenda as duas realidades.</span>
+            A falta de separação entre CPF e CNPJ cria <strong className="text-white">decisões erradas baseadas em números falsos.</strong> Mas o problem não é você — <span className="text-[#22C55E]">é a falta de uma ferramenta profissional que entenda as duas realidades.</span>
           </p>
         </section>
 
@@ -469,7 +488,7 @@ export default function App() {
             </div>
             
             <p className="text-[10px] text-neutral-500 text-center font-medium max-w-md mx-auto mt-8 leading-relaxed">
-              Garantia incondicional de 7 dias. Não gostou? Devolvemos 100% do seu investimento sem perguntas chatas.
+              Garantia incondicional de 7 dias. Não gostou? Devolvemos 100% do seu investment sem perguntas chatas.
             </p>
           </div>
         </section>
