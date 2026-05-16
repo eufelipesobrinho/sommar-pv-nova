@@ -401,7 +401,7 @@ export default function App() {
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
-                <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">3 e-books completos</span>
+                <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">E-book Completo</span>
                 <h4 className="text-xs font-extrabold text-white uppercase">Método "O Lucro Real do Empreendedor"</h4>
                 <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">O guia estratégico definitivo para acabar com o caos financeiro empresarial e separar de vez seu CPF da sua movimentação de caixa.</p>
               </div>
