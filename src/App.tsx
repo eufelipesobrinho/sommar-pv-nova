@@ -26,25 +26,30 @@ export default function App() {
     return () => window.removeEventListener('popstate', handleLocation);
   }, []);
 
-  // Disparo assíncrono da API de Conversões (CAPI) - Meta Ads
+  // Disparo assíncrono purificado do Pixel e CAPI - Apenas PageView Estratégico
   useEffect(() => {
-    if (currentPage === 'vendas') {
-      const PIXEL_ID = "1650440006207697";
-      const CAPI_TOKEN = "EAB4hda1l5Q0BRXIWNYaekyTJ2LraBp2e3o8Mw3UCYrVgZAKmDVmNClZC98nUeBRFePBRuslzWrjpQfK6lsOsAd2sgvRIUm7Y0ZA7EpHtchZBFqs06aNW6ObZBvd0ZAv5mki2FvLiGuDDmKyE47u42fGOYBxNE8xsHPMi5vr4Yxk3bQo6X04CYZBSiLJVIG5tdlRIgZDZD";
-      
-      fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_TOKEN}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: [{
-            event_name: "PageView",
-            event_time: Math.floor(Date.now() / 1000),
-            action_source: "website",
-            event_source_url: window.location.href,
-          }]
-        })
-      }).catch(() => {});
+    const PIXEL_ID = "1650440006207697";
+    const CAPI_TOKEN = "EAB4hda1l5Q0BRXIWNYaekyTJ2LraBp2e3o8Mw3UCYrVgZAKmDVmNClZC98nUeBRFePBRuslzWrjpQfK6lsOsAd2sgvRIUm7Y0ZA7EpHtchZBFqs06aNW6ObZBvd0ZAv5mki2FvLiGuDDmKyE47u42fGOYBxNE8xsHPMi5vr4Yxk3bQo6X04CYZBSiLJVIG5tdlRIgZDZD";
+    
+    // Disparo do Pixel no Navegador (Acesso dinâmico para ignorar erro de tipagem do TS)
+    const globalWindow = window as any;
+    if (globalWindow.fbq) {
+      globalWindow.fbq('track', 'PageView');
     }
+    
+    // Disparo da API de Conversões (CAPI - Servidor Back-end)
+    fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_TOKEN}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: [{
+          event_name: "PageView",
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: "website",
+          event_source_url: window.location.href,
+        }]
+      })
+    }).catch(() => {});
   }, [currentPage]);
 
   const scrollToPricing = (e: React.MouseEvent) => {
@@ -99,7 +104,6 @@ export default function App() {
               Chamar no WhatsApp
             </a>
           </div>
-
         </main>
 
         <footer className="border-t border-border py-6 text-center text-[10px] font-bold text-white/30 bg-black/40">
@@ -309,7 +313,7 @@ export default function App() {
           <div className="text-center max-w-xl mx-auto mb-14">
             <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Método Concreto</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">Funcionalidades de <span className="text-[#22C55E]">Alto Valor</span></h2>
-            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problem real de quem precisa controlar finanças com profissionalismo estruturado.</p>
+            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problema real de quem precisa controlar finanças com profissionalismo estruturado.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-16">
@@ -323,7 +327,7 @@ export default function App() {
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
               <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Parcelamento Inteligente (Fluxo de Caixa)</span>
-              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Lance compras parceladas uma única vez e veja o impacto no fluxo de caixa futuro. Saiba exatamente quanto do seu dinheiro já está comprometido.</p>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">Lance compras parceladas uma única vez e veja o impacto no fluxo de caixa futuro. Saiba exatamente quanto do seu dinheiro já está conhecido.</p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2">
               <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider">Divisão entre Sócios (Multi-Membros)</span>
@@ -501,7 +505,7 @@ export default function App() {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
                     <li className="flex items-center gap-2 text-[#22C55E] pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> + BÔNUS EXCLUSIVOS:</li>
                     <li className="flex items-center gap-2 text-white/90 pl-2">✓ Marinho IA — Gerente Financeiro 24h</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Método "O Lucro Real do Empreendedor"</li>
+                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Método \"O Lucro Real do Empreendedor\"</li>
                   </ul>
                 </div>
 
@@ -518,7 +522,7 @@ export default function App() {
             </div>
             
             <p className="text-[10px] text-neutral-500 text-center font-medium max-w-md mx-auto mt-8 leading-relaxed">
-              Garantia incondicional de 7 dias. Não gostou? Devolvemos 100% do seu investment sem perguntas chatas.
+              Garantia incondicional de 7 dias. Não gostou? Devolvemos 100% do seu investimento sem perguntas chatas.
             </p>
           </div>
         </section>
@@ -575,7 +579,7 @@ export default function App() {
                 Muito prazer, eu sou o <strong className="text-white">Felipe</strong>, idealizador do Sommar App.
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                Criei o Sommar because, além de sentir, percebi a frustração das pessoas ao usar planilhas que não se adequam à vida real. Eu precisava de algo que atendesse o maior número de pessoas, e o maior número de realidades.
+                Criei o Sommar porque, além de sentir, percebi a frustração das pessoas ao usar planilhas que não se adequam à vida real. Eu precisava de algo que atendesse o maior número de pessoas, e o maior número de realidades.
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                 Como não encontrei a ferramenta perfeita, <span className="text-[#22C55E] font-bold">decidi construí-la.</span> O Sommar é o resultado de um trabalho focado em entregar segurança, design premium e, acima de tudo, flexibilidade para quem é CLT, freelancer ou empreendedor.
