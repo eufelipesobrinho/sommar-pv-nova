@@ -26,6 +26,51 @@ export default function App() {
     return () => window.removeEventListener('popstate', handleLocation);
   }, []);
 
+  // CAPTURA DINÂMICA DE UTMS E REESCRITA DE LINKS DA CAKTO (MANTENDO O ESTADO INTACTO)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // 1. Extrai os parâmetros diretamente da URL do anúncio
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get("utm_source");
+    const utmMedium = urlParams.get("utm_medium");
+    const utmCampaign = urlParams.get("utm_campaign");
+
+    // 2. Persiste com segurança no armazenamento local da sessão
+    if (utmSource) sessionStorage.setItem("utm_source", utmSource);
+    if (utmMedium) sessionStorage.setItem("utm_medium", utmMedium);
+    if (utmCampaign) sessionStorage.setItem("utm_campaign", utmCampaign);
+
+    const savedSource = sessionStorage.getItem("utm_source");
+    const savedMedium = sessionStorage.getItem("utm_medium");
+    const savedCampaign = sessionStorage.getItem("utm_campaign");
+
+    // 3. Se houver rastro de tráfego, injeta os parâmetros em todos os links da Cakto
+    if (savedSource || savedMedium || savedCampaign) {
+      setTimeout(() => {
+        const links = document.querySelectorAll("a");
+        links.forEach(link => {
+          let href = link.href;
+          if (href && (href.includes("cakto.com") || href.includes("pay.cakto"))) {
+            try {
+              let url = new URL(href);
+              if (savedSource) {
+                url.searchParams.set("utm_source", savedSource);
+                url.searchParams.set("src", savedSource); // Mapeamento SRC nativo Cakto
+              }
+              if (savedMedium) url.searchParams.set("utm_medium", savedMedium);
+              if (savedCampaign) url.searchParams.set("utm_campaign", savedCampaign);
+              
+              link.href = url.toString();
+            } catch (e) {
+              console.error("Erro ao processar URL de checkout:", e);
+            }
+          }
+        });
+      }, 300); // Delay milimétrico para garantir renderização do DOM do React
+    }
+  }, [currentPage]);
+
   // Disparo assíncrono purificado do Pixel e CAPI - Apenas PageView Estratégico
   useEffect(() => {
     const PIXEL_ID = "1650440006207697";
@@ -169,7 +214,7 @@ export default function App() {
               QUERO MEU CONSULTOR IA AGORA <ArrowRight className="w-4 h-4" />
             </button>
             <p className="text-[10px] sm:text-[11px] text-muted-foreground font-medium mt-1">
-              Veja como o Marinho IA transforma confusão em <span className="text-[#22C55E]">diagnóstico estratégico</span>
+              Veja como o Marinho IA transforma confusão em <span className="text-[#22C55E]">diagnóstico strategic</span>
             </p>
           </div>
         </section>
@@ -313,7 +358,7 @@ export default function App() {
           <div className="text-center max-w-xl mx-auto mb-14">
             <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Método Concreto</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">Funcionalidades de <span className="text-[#22C55E]">Alto Valor</span></h2>
-            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problema real de quem precisa controlar finanças com profissionalismo estruturado.</p>
+            <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Cada recurso foi pensado para resolver um problem real de quem precisa controlar finanças com profissionalismo estruturado.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-16">
@@ -505,7 +550,7 @@ export default function App() {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
                     <li className="flex items-center gap-2 text-[#22C55E] pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> + BÔNUS EXCLUSIVOS:</li>
                     <li className="flex items-center gap-2 text-white/90 pl-2">✓ Marinho IA — Gerente Financeiro 24h</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Método \"O Lucro Real do Empreendedor\"</li>
+                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Método "O Lucro Real do Empreendedor"</li>
                   </ul>
                 </div>
 
