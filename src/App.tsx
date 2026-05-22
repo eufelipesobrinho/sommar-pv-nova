@@ -9,8 +9,12 @@ import {
   BarChart3,
   Calendar,
   ListChecks,
-  Layers
+  Layers,
+  Play
 } from "lucide-react";
+
+const HERO_VIDEO_ID = '2jtToi2wIps';
+const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
 
 type IPhoneMockupProps = {
   src: string;
@@ -65,6 +69,7 @@ function IPhoneMockup({ src, alt, priority = false, tilt = 'none' }: IPhoneMocku
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'vendas' | 'obrigado'>('vendas');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [heroVideoActive, setHeroVideoActive] = useState(false);
 
   useEffect(() => {
     const handleLocation = () => {
@@ -249,16 +254,42 @@ export default function App() {
             Pare de alternar entre apps de banco, agenda e tarefas. O Sommar centraliza sua rotina, separa CPF do CNPJ e te entrega o lucro real — <span className="text-[#22C55E]">sem planilhas, sem erros e sem perda de tempo.</span>
           </p>
 
-          {/* VÍDEO DE DEMONSTRAÇÃO COMPATÍVEL MOBILE */}
+          {/* VÍDEO DE DEMONSTRAÇÃO — embed adiado até o clique (LCP) */}
           <div className="max-w-2xl mx-auto w-full mb-10 rounded-2xl border border-border bg-[#0a0a0a] p-2 shadow-2xl card-glow">
-            <div className="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden">
-              <iframe 
-                className="absolute top-0 left-0 w-full h-full border-0"
-                src="https://youtu.be/2jtToi2wIps?si=0MYdkyZNUdvxsjRQ" 
-                title="Vídeo de demonstração Sommar App"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowFullScreen
-              ></iframe>
+            <div className="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden bg-black">
+              {heroVideoActive ? (
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full border-0"
+                  src={HERO_VIDEO_EMBED}
+                  title="Vídeo de demonstração Sommar App"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setHeroVideoActive(true)}
+                  className="absolute inset-0 w-full h-full group cursor-pointer"
+                  aria-label="Reproduzir vídeo de demonstração Sommar App"
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${HERO_VIDEO_ID}/hqdefault.jpg`}
+                    alt=""
+                    width={1280}
+                    height={720}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition-colors">
+                    <span className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-[#22C55E] to-[#4ADE80] flex items-center justify-center shadow-xl shadow-[#22C55E]/30 group-hover:scale-105 transition-transform">
+                      <Play className="w-6 h-6 sm:w-7 sm:h-7 text-black ml-0.5" fill="currentColor" aria-hidden />
+                    </span>
+                  </span>
+                </button>
+              )}
             </div>
           </div>
 
