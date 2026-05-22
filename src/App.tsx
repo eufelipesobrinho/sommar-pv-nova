@@ -6,8 +6,61 @@ import {
   Smartphone, 
   Lock,
   Sparkles,
-  BarChart3
+  BarChart3,
+  Calendar,
+  ListChecks,
+  Layers
 } from "lucide-react";
+
+type IPhoneMockupProps = {
+  src: string;
+  alt: string;
+  priority?: boolean;
+  tilt?: 'left' | 'right' | 'none';
+};
+
+function IPhoneMockup({ src, alt, priority = false, tilt = 'none' }: IPhoneMockupProps) {
+  const tiltClass =
+    tilt === 'left'
+      ? '-rotate-2 sm:-rotate-[4deg] md:-rotate-[6deg]'
+      : tilt === 'right'
+        ? 'rotate-2 sm:rotate-[4deg] md:rotate-[6deg]'
+        : '';
+
+  return (
+    <div
+      className={`relative mx-auto w-full max-w-[220px] sm:max-w-[260px] md:max-w-[280px] ${tiltClass} transition-transform duration-300 hover:rotate-0`}
+    >
+      <div
+        className="absolute inset-6 sm:inset-8 rounded-[40px] bg-[#22C55E]/[0.07] blur-2xl pointer-events-none"
+        aria-hidden
+      />
+      <div className="relative rounded-[42px] sm:rounded-[44px] p-[2px] bg-gradient-to-b from-[#454545] via-[#1c1c1c] to-[#080808] shadow-[0_28px_56px_-14px_rgba(0,0,0,0.85)]">
+        <div className="rounded-[40px] sm:rounded-[42px] bg-[#050505] p-[9px] sm:p-[10px] border border-white/[0.07]">
+          <div className="relative rounded-[30px] sm:rounded-[32px] overflow-hidden bg-[#050505] aspect-[9/19.5]">
+            <div
+              className="absolute top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-20 w-[32%] max-w-[100px] h-[22px] sm:h-[26px] bg-[#050505] rounded-full border border-white/[0.08] shadow-[inset_0_1px_2px_rgba(255,255,255,0.06)]"
+              aria-hidden
+            />
+            <img
+              src={src}
+              alt={alt}
+              width={390}
+              height={844}
+              className="w-full h-full object-cover object-top"
+              loading={priority ? 'eager' : 'lazy'}
+              decoding="async"
+              {...(priority ? { fetchPriority: 'high' as const } : { fetchPriority: 'low' as const })}
+            />
+          </div>
+        </div>
+        <div className="absolute -right-[2px] top-[26%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-r-sm opacity-80" aria-hidden />
+        <div className="absolute -left-[2px] top-[20%] w-[3px] h-[7%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
+        <div className="absolute -left-[2px] top-[30%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'vendas' | 'obrigado'>('vendas');
@@ -188,12 +241,12 @@ export default function App() {
             <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">Seu Consultor Estratégico IA 24h</span>
           </div>
           
-          <h1 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-white leading-[1.2] mb-6 max-w-3xl mx-auto">
-            Saiba se sua empresa está lucrando ou se você está <span className="text-[#22C55E]">pagando para trabalhar</span> em menos de 1 minuto.
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white leading-[1.2] mb-6 max-w-3xl mx-auto">
+            O Sistema Operacional do Empreendedor: <span className="text-[#22C55E]">Finanças, Rotinas e Agenda</span> em um único lugar.
           </h1>
           
           <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
-            O Sommar processa seus extratos automaticamente, separa o CPF do CNPJ e te entrega o lucro real. <span className="text-[#22C55E]">Sem planilhas, sem erros e sem perda de tempo.</span>
+            Pare de alternar entre apps de banco, agenda e tarefas. O Sommar centraliza sua rotina, separa CPF do CNPJ e te entrega o lucro real — <span className="text-[#22C55E]">sem planilhas, sem erros e sem perda de tempo.</span>
           </p>
 
           {/* VÍDEO DE DEMONSTRAÇÃO COMPATÍVEL MOBILE */}
@@ -201,7 +254,7 @@ export default function App() {
             <div className="relative w-full pb-[56.25%] h-0 rounded-xl overflow-hidden">
               <iframe 
                 className="absolute top-0 left-0 w-full h-full border-0"
-                src="https://www.youtube.com/embed/YfYAfW8kFO4" 
+                src="https://youtu.be/2jtToi2wIps?si=0MYdkyZNUdvxsjRQ" 
                 title="Vídeo de demonstração Sommar App"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
@@ -269,11 +322,7 @@ export default function App() {
               </button>
             </div>
             
-            {/* MOCK CELULAR 1 */}
-            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
-              <img src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" className="w-full h-full object-cover rounded-[30px]" />
-            </div>
+            <IPhoneMockup src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" tilt="right" />
           </div>
         </section>
 
@@ -345,11 +394,7 @@ export default function App() {
               </button>
             </div>
             
-            {/* MOCK CELULAR 2 */}
-            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
-              <img src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" className="w-full h-full object-cover rounded-[30px]" />
-            </div>
+            <IPhoneMockup src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" tilt="left" />
           </div>
         </section>
 
@@ -395,10 +440,136 @@ export default function App() {
               </button>
             </div>
             
-            {/* MOCK CELULAR 3 */}
-            <div className="relative mx-auto w-full max-w-[280px] h-[560px] bg-[#000] border-[10px] border-[#1a1a1a] rounded-[40px] shadow-2xl card-glow overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-20"></div>
-              <img src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" className="w-full h-full object-cover rounded-[30px]" />
+            <IPhoneMockup src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" tilt="right" />
+          </div>
+        </section>
+
+        {/* ECOSSISTEMA SOMMAR — ROTINAS & COMPROMISSOS */}
+        <section className="border-t border-b border-border/40 bg-[#050505] py-20 px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest inline-flex items-center gap-1.5">
+                <Layers className="w-3 h-3" /> Ecossistema Sommar
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
+                Um só app. <span className="text-[#22C55E]">Toda a sua operação.</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-3 leading-relaxed font-medium">
+                Você não precisa de três ferramentas diferentes. Finanças, rotinas e agenda vivem no mesmo sistema — o sistema operacional da sua rotina.
+              </p>
+            </div>
+
+            {/* Rotinas — Consistência */}
+            <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center mb-20 md:mb-24">
+              <div className="order-2 md:order-1 space-y-4 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-[#050505] text-[#22C55E]">
+                  <ListChecks className="w-4 h-4" strokeWidth={1.75} />
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest">Rotinas</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">
+                  <span className="text-[#22C55E]">Consistência</span> que vira resultado
+                </h3>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium max-w-md mx-auto md:mx-0">
+                  Não é sobre trabalhar mais, é sobre fazer o que importa. Gerencie suas tarefas diárias com a mesma precisão do seu financeiro.
+                </p>
+              </div>
+              <div className="order-1 md:order-2 flex justify-center md:justify-end px-2 sm:px-0">
+                <IPhoneMockup
+                  src="/rotinas-sommar.jpg"
+                  alt="Módulo de Rotinas Sommar App"
+                  tilt="right"
+                />
+              </div>
+            </div>
+
+            {/* Compromissos — Controle */}
+            <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+              <div className="flex justify-center md:justify-start px-2 sm:px-0">
+                <IPhoneMockup
+                  src="/compromissos-sommar.jpg"
+                  alt="Módulo de Compromissos e Agenda Sommar App"
+                  tilt="left"
+                />
+              </div>
+              <div className="space-y-4 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-[#050505] text-[#22C55E]">
+                  <Calendar className="w-4 h-4" strokeWidth={1.75} />
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest">Compromissos</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">
+                  <span className="text-[#22C55E]">Controle</span> total do seu tempo
+                </h3>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium max-w-md mx-auto md:mx-0">
+                  Seu tempo é seu maior ativo. Centralize sua agenda e nunca mais perca um prazo ou oportunidade de negócio.
+                </p>
+                <button
+                  onClick={scrollToPricing}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg shadow-[#22C55E]/10 hover:scale-[1.02] transition-all"
+                >
+                  QUERO O ECOSSISTEMA COMPLETO <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* POR QUE O SOMMAR? */}
+        <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40">
+          <div className="text-center max-w-xl mx-auto mb-14">
+            <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Diferenciais</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
+              Por que o <span className="text-[#22C55E]">Sommar?</span>
+            </h2>
+            <p className="text-xs text-muted-foreground mt-2 leading-relaxed font-medium">
+              Tudo o que você precisa para operar como empreendedor — sem fragmentar sua rotina em apps isolados.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div className="p-5 rounded-xl border border-[#22C55E]/25 bg-[#050505] space-y-2 sm:col-span-2 lg:col-span-1 lg:row-span-1">
+              <div className="w-9 h-9 rounded-lg border border-[#22C55E]/20 bg-[#22C55E]/5 flex items-center justify-center text-[#22C55E]">
+                <Layers className="w-4 h-4" strokeWidth={1.75} />
+              </div>
+              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider block">Integração total</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                O impacto das suas tarefas diárias refletido direto no seu fluxo de caixa.
+              </p>
+            </div>
+            <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
+              <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
+                <CheckCircle2 className="w-4 h-4" strokeWidth={1.75} />
+              </div>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">CPF × CNPJ blindado</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                Separação real entre vida pessoal e empresarial, com lucro e margem automáticos.
+              </p>
+            </div>
+            <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
+              <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
+                <Sparkles className="w-4 h-4" strokeWidth={1.75} />
+              </div>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">Marinho IA 24h</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                Lançamentos em massa via chat — sem formulários engessados.
+              </p>
+            </div>
+            <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
+              <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
+                <Smartphone className="w-4 h-4" strokeWidth={1.75} />
+              </div>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">PWA premium</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                Acesso instantâneo no celular, sem ocupar espaço com downloads pesados.
+              </p>
+            </div>
+            <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
+              <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
+                <Lock className="w-4 h-4" strokeWidth={1.75} />
+              </div>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">Segurança bancária</span>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                Criptografia TLS e armazenamento isolado para seus dados financeiros.
+              </p>
             </div>
           </div>
         </section>
