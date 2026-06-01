@@ -86,7 +86,7 @@ function TrustBadges({ className = '' }: { className?: string }) {
     {
       icon: MousePointerClick,
       title: 'Cancelamento sem burocracia',
-      desc: 'Com 1 clique, quando você quiser.',
+      desc: 'Cancele quando quiser, sem complicação.',
     },
   ] as const;
 
@@ -738,8 +738,6 @@ export default function App() {
               </p>
             </div>
 
-            <TrustBadges className="mb-10" />
-
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto items-stretch">
               {/* PLANO MENSAL */}
               <div className="p-6 rounded-2xl border border-border bg-[#060606] flex flex-col justify-between">
@@ -784,12 +782,13 @@ export default function App() {
 
               {/* PLANO ANUAL */}
               <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[9px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">
-                  ★ MELHOR CUSTO BENEFÍCIO
-                </div>
-
                 <div>
-                  <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Anual</h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Anual</h3>
+                    <span className="bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
+                      ★ Melhor oferta
+                    </span>
+                  </div>
                   <p className="text-[11px] text-muted-foreground mt-1">Para empresários que jogam sério.</p>
                   
                   <div className="my-6">
@@ -824,7 +823,7 @@ export default function App() {
                     rel="noreferrer"
                     className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
                   >
-                    COMEÇAR PLANO ANUAL — MELHOR OFERTA <ArrowRight className="w-4 h-4" />
+                    COMEÇAR PLANO ANUAL <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
@@ -960,7 +959,6 @@ export default function App() {
             >
               ESCOLHER MEU PLANO <ArrowRight className="w-4 h-4" />
             </button>
-            <TrustBadges className="mt-6" />
           </div>
         </section>
 
