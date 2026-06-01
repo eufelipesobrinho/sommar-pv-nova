@@ -10,8 +10,13 @@ import {
   Calendar,
   ListChecks,
   Layers,
-  Play
+  Play,
+  ShieldCheck,
+  MousePointerClick
 } from "lucide-react";
+
+const PRIMARY_CTA =
+  'inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold uppercase tracking-widest rounded-xl shadow-lg shadow-[#22C55E]/25 hover:scale-[1.02] active:scale-[0.99] transition-transform duration-200';
 
 const HERO_VIDEO_ID = '2jtToi2wIps';
 const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
@@ -62,6 +67,54 @@ function IPhoneMockup({ src, alt, priority = false, tilt = 'none' }: IPhoneMocku
         <div className="absolute -left-[2px] top-[20%] w-[3px] h-[7%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
         <div className="absolute -left-[2px] top-[30%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
       </div>
+    </div>
+  );
+}
+
+function TrustBadges({ className = '' }: { className?: string }) {
+  const items = [
+    {
+      icon: ShieldCheck,
+      title: '7 Dias de Garantia Incondicional',
+      desc: 'Teste sem risco. Não gostou? Devolvemos 100%.',
+    },
+    {
+      icon: Lock,
+      title: 'Ambiente Seguro',
+      desc: 'Seus dados financeiros protegidos a cada acesso.',
+    },
+    {
+      icon: MousePointerClick,
+      title: 'Cancelamento sem burocracia',
+      desc: 'Com 1 clique, quando você quiser.',
+    },
+  ] as const;
+
+  return (
+    <div
+      className={`grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto ${className}`}
+      role="list"
+      aria-label="Garantias de compra segura"
+    >
+      {items.map(({ icon: Icon, title, desc }) => (
+        <div
+          key={title}
+          role="listitem"
+          className="flex items-start gap-3 p-3 rounded-xl border border-border/80 bg-[#060606]/80 text-left"
+        >
+          <div className="w-9 h-9 rounded-lg border border-[#22C55E]/20 bg-[#22C55E]/5 flex items-center justify-center text-[#22C55E] flex-shrink-0">
+            <Icon className="w-4 h-4" strokeWidth={1.75} aria-hidden />
+          </div>
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-[11px] font-extrabold text-white uppercase tracking-wide leading-snug">
+              {title}
+            </p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground font-medium mt-0.5 leading-relaxed">
+              {desc}
+            </p>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -231,8 +284,11 @@ export default function App() {
               <span className="text-[#22C55E]">Sommar</span> <span className="text-white">App</span>
             </span>
           </div>
-          <button onClick={scrollToPricing} className="bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-widest px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl hover:scale-[1.02] transition-transform duration-200 shadow-md shadow-[#22C55E]/10 animate-pulse-glow">
-            ATIVAR MINHA DIREÇÃO LUCRATIVA
+          <button
+            onClick={scrollToPricing}
+            className={`${PRIMARY_CTA} text-[10px] sm:text-xs px-4 sm:px-5 py-2.5 sm:py-3`}
+          >
+            VER PLANOS <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </header>
@@ -243,15 +299,17 @@ export default function App() {
         <section className="max-w-4xl mx-auto px-4 pt-12 sm:pt-16 pb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-white/[0.02] mb-6">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
-            <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">Seu Consultor Estratégico IA 24h</span>
+            <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">
+              Para autônomos e empresários
+            </span>
           </div>
           
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white leading-[1.2] mb-6 max-w-3xl mx-auto">
-            O Sistema Operacional do Empreendedor: <span className="text-[#22C55E]">Finanças, Rotinas e Agenda</span> em um único lugar.
+          <h1 className="text-2xl sm:text-4xl md:text-[2.65rem] font-extrabold uppercase tracking-tight text-white leading-[1.15] mb-6 max-w-3xl mx-auto">
+            Pare de misturar o dinheiro da casa com o da empresa. <span className="text-[#22C55E]">Veja seu lucro real</span> sem planilha.
           </h1>
           
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
-            Pare de alternar entre apps de banco, agenda e tarefas. O Sommar centraliza sua rotina, separa CPF do CNPJ e te entrega o lucro real — <span className="text-[#22C55E]">sem planilhas, sem erros e sem perda de tempo.</span>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
+            O Sommar separa suas finanças pessoais das da empresa em um só lugar. Você descobre, em minutos, quanto seu negócio realmente lucra — <span className="text-white">sem confundir salário com faturamento.</span>
           </p>
 
           {/* VÍDEO DE DEMONSTRAÇÃO — embed adiado até o clique (LCP) */}
@@ -293,13 +351,14 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-4">
-            <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs sm:text-sm uppercase tracking-widest px-10 py-5 rounded-xl shadow-2xl shadow-[#22C55E]/20 hover:scale-[1.03] transition-all duration-200">
-              QUERO MEU CONSULTOR IA AGORA <ArrowRight className="w-4 h-4" />
+          <div className="flex flex-col items-center justify-center gap-5 max-w-2xl mx-auto">
+            <button
+              onClick={scrollToPricing}
+              className={`${PRIMARY_CTA} w-full sm:w-auto text-xs sm:text-sm px-10 py-5 shadow-2xl shadow-[#22C55E]/20`}
+            >
+              QUERO SEPARAR MINHAS FINANÇAS <ArrowRight className="w-4 h-4" />
             </button>
-            <p className="text-[10px] sm:text-[11px] text-muted-foreground font-medium mt-1">
-              Veja como o Marinho IA transforma confusão em <span className="text-[#22C55E]">diagnóstico strategic</span>
-            </p>
+            <TrustBadges />
           </div>
         </section>
 
@@ -344,12 +403,18 @@ export default function App() {
               <span className="text-[10px] font-extrabold text-[#22C55E] bg-[#22C55E]/10 border border-[#22C55E]/20 uppercase tracking-widest px-2.5 py-1 rounded-md inline-flex items-center gap-1">
                 ✓ A Solução
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">Apresentamos o <span className="text-[#22C55E]">Sommar App</span></h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">
+                Suas contas <span className="text-[#22C55E]">pessoais e da empresa</span>, finalmente separadas.
+              </h2>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
-                O sistema que <strong className="text-white">separa sua vida pessoal da empresarial</strong> e te dá lucro real automático.
+                O Sommar mostra quanto entrou, quanto saiu e <strong className="text-white">quanto sobrou de lucro de verdade</strong> — sem você montar planilha.
               </p>
-              <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg shadow-[#22C55E]/10 hover:scale-[1.02] transition-all">
-                QUERO PROFISSIONALIZAR MINHA GESTÃO <ArrowRight className="w-4 h-4" />
+              <button
+                type="button"
+                onClick={scrollToPricing}
+                className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
+              >
+                Ver planos e começar →
               </button>
             </div>
             
@@ -400,9 +465,6 @@ export default function App() {
         <section className="max-w-xl mx-auto text-center py-12 px-4">
           <h3 className="text-lg font-extrabold text-white uppercase mb-2">Modo Claro ou Escuro? <span className="text-[#22C55E]">Você escolhe.</span></h3>
           <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">O contexto (Pessoal ou Empresarial) <strong className="text-white">não está preso a um tema.</strong> Você usa Pessoal no escuro, Empresarial no claro — ou o oposto.</p>
-          <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
-            ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
-          </button>
         </section>
 
         {/* 5. MARINHO IA SECTION (MOCK SMARTPHONE CELULAR 2) */}
@@ -412,17 +474,16 @@ export default function App() {
               <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-1 rounded-md uppercase tracking-widest inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3" /> Consultor IA 24h
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">Marinho IA: <span className="text-[#22C55E]">O cérebro que lança tudo por você.</span></h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">
+                Anote gastos pelo <span className="text-[#22C55E]">chat</span> em segundos.
+              </h2>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
-                <strong className="text-white">Esqueça digitação manual travada.</strong> O Marinho agora lê <strong className="text-[#22C55E]">mensagens do chat de forma fluida</strong> — interpretando e organizando lançamentos completos de custos em segundos.
+                <strong className="text-white">Sem formulário chato.</strong> Você manda os gastos por mensagem e o Sommar organiza tudo — <strong className="text-[#22C55E]">já separado entre pessoal e empresa.</strong>
               </p>
               <ul className="flex flex-col gap-2 pt-2 text-xs font-bold uppercase tracking-wide text-white/90 text-left max-w-xs mx-auto md:mx-0">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Lançamento Inteligente em Massa via Chat</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Inteligência Conversacional Estratégica</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Vários gastos de uma vez</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Lucro atualizado na hora</li>
               </ul>
-              <button onClick={scrollToPricing} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
-                ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
-              </button>
             </div>
             
             <IPhoneMockup src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" tilt="left" />
@@ -534,10 +595,11 @@ export default function App() {
                   Seu tempo é seu maior ativo. Centralize sua agenda e nunca mais perca um prazo ou oportunidade de negócio.
                 </p>
                 <button
+                  type="button"
                   onClick={scrollToPricing}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg shadow-[#22C55E]/10 hover:scale-[1.02] transition-all"
+                  className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
                 >
-                  QUERO O ECOSSISTEMA COMPLETO <ArrowRight className="w-4 h-4" />
+                  Ver planos →
                 </button>
               </div>
             </div>
@@ -588,18 +650,18 @@ export default function App() {
               <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
                 <Smartphone className="w-4 h-4" strokeWidth={1.75} />
               </div>
-              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">PWA premium</span>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">No celular, na hora</span>
               <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-                Acesso instantâneo no celular, sem ocupar espaço com downloads pesados.
+                Acesse pelo navegador do seu celular. Sem instalar nada e sem ocupar memória.
               </p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
               <div className="w-9 h-9 rounded-lg border border-border bg-white/[0.02] flex items-center justify-center text-[#22C55E]">
                 <Lock className="w-4 h-4" strokeWidth={1.75} />
               </div>
-              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">Segurança bancária</span>
+              <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">Ambiente seguro</span>
               <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-                Criptografia TLS e armazenamento isolado para seus dados financeiros.
+                Seus dados financeiros protegidos em cada acesso, com a mesma segurança de um banco digital.
               </p>
             </div>
           </div>
@@ -662,23 +724,21 @@ export default function App() {
             </div>
           </div>
 
-          <div className="max-w-xs mx-auto mt-8">
-            <button onClick={scrollToPricing} className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-xl shadow-[#22C55E]/10 animate-pulse-glow">
-              QUERO GARANTIR MINHA VAGA E TODOS OS BÔNUS <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
         </section>
 
         {/* 9. OFERTA E PREÇO - PRICING SECTION */}
         <section id="pricing" className="border-t border-border bg-white/[0.01] py-24 px-4 scroll-mt-16">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center max-w-xl mx-auto mb-16">
-              <h2 className="text-3xl font-extrabold text-white uppercase tracking-tight">Invista na <span className="text-[#22C55E]">profissionalização</span> do seu lucro</h2>
-              <div className="p-4 rounded-xl border border-red-500/10 bg-red-500/[0.01] text-xs font-medium text-muted-foreground mt-6 leading-relaxed max-w-md mx-auto">
-                "Quanto custa a hora de um consultor financeiro? No mínimo <strong className="text-white underline">R$ 250,00</strong>. Quanto custa um ano de cálculo que faz você pagar imposto sobre o seu próprio pró-labore? <strong className="text-red-400 underline">Milhares de reais.</strong>"
-              </div>
-              <p className="text-xs text-muted-foreground mt-6">Escolha o plano ideal para transformar sua gestão financeira em uma máquina de lucro estável.</p>
+            <div className="text-center max-w-xl mx-auto mb-10">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
+                Separe CPF e CNPJ hoje. <span className="text-[#22C55E]">Veja seu lucro real.</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-4 leading-relaxed font-medium">
+                Escolha o plano e comece agora. Menos que um almoço por semana para nunca mais misturar contas pessoais com as da empresa.
+              </p>
             </div>
+
+            <TrustBadges className="mb-10" />
 
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto items-stretch">
               {/* PLANO MENSAL */}
@@ -711,13 +771,14 @@ export default function App() {
                 </div>
 
                 <div className="pt-6">
-                  <a href="https://pay.cakto.com.br/ni9nrpf_687767" target="_blank" rel="noreferrer" className="w-full text-center block bg-white/5 text-white border border-border text-[11px] font-extrabold uppercase tracking-widest py-3.5 rounded-xl hover:bg-white/10 transition-colors">
-                    ATIVAR PLANO MENSAL •
+                  <a
+                    href="https://pay.cakto.com.br/ni9nrpf_687767"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4`}
+                  >
+                    COMEÇAR PLANO MENSAL <ArrowRight className="w-4 h-4" />
                   </a>
-                  <div className="flex justify-between items-center text-[10px] text-neutral-500 font-bold uppercase tracking-wider pt-3 px-1">
-                    <span>🔒 Pagamento Seguro</span>
-                    <span>⚡ Liberação Imediata</span>
-                  </div>
                 </div>
               </div>
 
@@ -757,20 +818,19 @@ export default function App() {
                 </div>
 
                 <div className="pt-6">
-                  <a href="https://pay.cakto.com.br/itbvz49" target="_blank" rel="noreferrer" className="w-full text-center block bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-[11px] uppercase tracking-widest py-3.5 rounded-xl shadow-md shadow-[#22C55E]/10 hover:scale-[1.01] transition-transform duration-200">
-                    ATIVAR PLANO ANUAL
+                  <a
+                    href="https://pay.cakto.com.br/itbvz49"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
+                  >
+                    COMEÇAR PLANO ANUAL — MELHOR OFERTA <ArrowRight className="w-4 h-4" />
                   </a>
-                  <div className="flex justify-between items-center text-[10px] text-neutral-500 font-bold uppercase tracking-wider pt-3 px-1">
-                    <span>🔒 Pagamento Seguro</span>
-                    <span>⚡ Liberação Imediata</span>
-                  </div>
                 </div>
               </div>
             </div>
             
-            <p className="text-[10px] text-neutral-500 text-center font-medium max-w-md mx-auto mt-8 leading-relaxed">
-              Garantia incondicional de 7 dias. Não gostou? Devolvemos 100% do seu investimento sem perguntas chatas.
-            </p>
+            <TrustBadges className="mt-10" />
           </div>
         </section>
 
@@ -864,10 +924,10 @@ export default function App() {
 
             <div className="flex flex-col gap-3 max-w-xl mx-auto">
               {[
-                { q: "Meus dados estão seguros?", a: "Totalmente. O Sommar App utiliza criptografia de nível bancário TLS e armazenamento isolado para garantir a privacidade total e inviolável de todas as suas informações financeiras." },
-                { q: "Preciso de conta em algum banco específico?", a: "Não. A nossa inteligência e os parsers de importação aceitam a leitura de arquivos e extratos de qualquer instituição financeira ou banco operando nacionalmente." },
-                { q: "Como recebo o acesso?", a: "Imediatamente após a confirmação de liquidação pela Cakto, você receberá um e-mail contendo as credenciais de autenticação privada para acessar o ecossistema em app.sommarapp.com.br." },
-                { q: "Como funciona a garantia de 7 dias?", a: "Dentro do período de 7 dias, se decidir não continuar, basta acionar nosso canal de suporte ou a própria plataforma Cakto. Cancelamos seu plano e estornamos 100% do valor pago imediatamente." }
+                { q: "Meus dados estão seguros?", a: "Sim. O Sommar usa ambiente seguro com proteção de dados no mesmo nível de bancos digitais. Suas informações financeiras ficam privadas e protegidas." },
+                { q: "Preciso de conta em algum banco específico?", a: "Não. Você pode usar com qualquer banco. Basta registrar seus gastos e receitas — o Sommar faz a separação entre pessoal e empresa para você." },
+                { q: "Como recebo o acesso?", a: "Assim que o pagamento for confirmado, você recebe um e-mail com seu login para acessar o app em app.sommarapp.com.br." },
+                { q: "Como funciona a garantia de 7 dias?", a: "Você tem 7 dias para testar. Se não gostar, cancela com 1 clique na plataforma de pagamento e recebe 100% do valor de volta, sem burocracia." }
               ].map((item, index) => (
                 <div key={index} className="border border-border bg-[#060606] rounded-xl overflow-hidden">
                   <button onClick={() => toggleFaq(index)} className="w-full flex items-center justify-between p-4 text-left font-bold text-xs sm:text-sm text-white uppercase tracking-wide hover:bg-white/[0.01]">
@@ -888,27 +948,28 @@ export default function App() {
         {/* CALL TO ACTION FINAL BANNER */}
         <section className="max-w-2xl mx-auto px-4 py-12 text-center">
           <div className="p-8 rounded-2xl border border-[#22C55E]/10 bg-gradient-to-b from-[#22C55E]/[0.02] to-transparent space-y-4">
-            <h3 className="text-xl font-extrabold text-white uppercase">Separe. Controle. <span className="text-[#22C55E]">Escale.</span></h3>
-            <p className="text-xs text-muted-foreground font-medium leading-relaxed max-w-xs mx-auto">Profissionalize sua gestão financeira hoje e veja sua empresa crescer com números reais.</p>
-            <button onClick={scrollToPricing} className="inline-flex items-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-6 py-4 rounded-xl shadow-lg">
-              ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
+            <h3 className="text-xl font-extrabold text-white uppercase">
+              Separe suas contas. <span className="text-[#22C55E]">Veja seu lucro real.</span>
+            </h3>
+            <p className="text-xs text-muted-foreground font-medium leading-relaxed max-w-sm mx-auto">
+              Escolha seu plano e comece hoje — com 7 dias de garantia se não for para você.
+            </p>
+            <button
+              onClick={scrollToPricing}
+              className={`${PRIMARY_CTA} text-xs px-8 py-4`}
+            >
+              ESCOLHER MEU PLANO <ArrowRight className="w-4 h-4" />
             </button>
+            <TrustBadges className="mt-6" />
           </div>
         </section>
 
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-border py-8 bg-black text-center text-[10px] text-neutral-500 font-bold">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col gap-4 sm:flex-row sm:justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/favicon.jpg" alt="Logo" className="w-5 h-5 rounded-md object-contain" />
-            <span>Sommar App</span>
-          </div>
-          <div className="flex gap-4 uppercase text-[9px] tracking-wider text-neutral-600">
-            <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-            <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
-          </div>
+      <footer className="border-t border-border py-6 bg-black text-center text-[10px] text-neutral-500 font-medium">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+          <img src="/favicon.jpg" alt="" className="w-5 h-5 rounded-md object-contain opacity-80" aria-hidden />
           <span>© 2026 Sommar App. Todos os direitos reservados.</span>
         </div>
       </footer>
