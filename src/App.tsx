@@ -187,10 +187,16 @@ export default function App() {
     const PIXEL_ID = "1650440006207697";
     const CAPI_TOKEN = "EAB4hda1l5Q0BRXIWNYaekyTJ2LraBp2e3o8Mw3UCYrVgZAKmDVmNClZC98nUeBRFePBRuslzWrjpQfK6lsOsAd2sgvRIUm7Y0ZA7EpHtchZBFqs06aNW6ObZBvd0ZAv5mki2FvLiGuDDmKyE47u42fGOYBxNE8xsHPMi5vr4Yxk3bQo6X04CYZBSiLJVIG5tdlRIgZDZD";
     
+    const isPurchase = currentPage === 'obrigado';
+
     // Disparo do Pixel no Navegador (Acesso dinâmico para ignorar erro de tipagem do TS)
     const globalWindow = window as any;
     if (globalWindow.fbq) {
-      globalWindow.fbq('track', 'PageView');
+      if (isPurchase) {
+        globalWindow.fbq('track', 'Purchase', { value: 39.90, currency: 'BRL' });
+      } else {
+        globalWindow.fbq('track', 'PageView');
+      }
     }
     
     // Disparo da API de Conversões (CAPI - Servidor Back-end)
@@ -199,10 +205,11 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         data: [{
-          event_name: "PageView",
+          event_name: isPurchase ? "Purchase" : "PageView",
           event_time: Math.floor(Date.now() / 1000),
           action_source: "website",
           event_source_url: window.location.href,
+          ...(isPurchase ? { custom_data: { value: 39.90, currency: "BRL" } } : {}),
         }]
       })
     }).catch(() => {});
