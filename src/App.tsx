@@ -295,7 +295,7 @@ export default function App() {
             onClick={scrollToPricing}
             className={`${PRIMARY_CTA} text-[10px] sm:text-xs px-4 sm:px-5 py-2.5 sm:py-3`}
           >
-            VER PLANOS <ArrowRight className="w-3.5 h-3.5" />
+            VER OFERTA <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </header>
@@ -421,7 +421,7 @@ export default function App() {
                 onClick={scrollToPricing}
                 className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
               >
-                Ver planos e começar →
+                Ver oferta e começar →
               </button>
             </div>
             
@@ -606,7 +606,7 @@ export default function App() {
                   onClick={scrollToPricing}
                   className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
                 >
-                  Ver planos →
+                  Ver oferta →
                 </button>
               </div>
             </div>
@@ -741,7 +741,7 @@ export default function App() {
                 Separe CPF e CNPJ hoje. <span className="text-[#22C55E]">Veja seu lucro real.</span>
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground mt-4 leading-relaxed font-medium">
-                Escolha o plano e comece agora. Menos que um almoço por semana para nunca mais misturar contas pessoais com as da empresa.
+                Um único plano, com acesso completo a tudo. Menos que um almoço por semana para nunca mais misturar contas pessoais com as da empresa.
               </p>
             </div>
 
@@ -750,12 +750,12 @@ export default function App() {
               <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow">
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Anual</h3>
+                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Completo</h3>
                     <span className="bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
-                      ★ Melhor oferta
+                      ★ Acesso Total
                     </span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground mt-1">Para empresários que jogam sério.</p>
+                  <p className="text-[11px] text-muted-foreground mt-1">Tudo o que o Sommar tem, em um único plano anual.</p>
                   
                   <div className="my-6">
                     <span className="text-neutral-500 line-through text-[11px] font-bold block">R$ 397,00</span>
@@ -768,28 +768,28 @@ export default function App() {
                   </div>
 
                   <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
+                    <li className="flex items-center gap-2 text-[#22C55E] font-extrabold uppercase tracking-wider"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> + Bônus Exclusivos:</li>
+                    <li className="flex items-center gap-2 text-white font-bold pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Marinho IA — Gerente Financeiro 24h</li>
+                    <li className="flex items-center gap-2 text-white font-bold pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
+                    <li className="flex items-center gap-2 text-white/90 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Método "O Lucro Real do Empreendedor"</li>
+                    <li className="flex items-center gap-2 pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lançamento em Massa via Chat</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Parcelamento automático de cartão</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de Cartões consolidada</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Divisão entre sócios e membros</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> PWA — sem ocupar espaço no celular</li>
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
-                    <li className="flex items-center gap-2 text-[#22C55E] pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> + BÔNUS EXCLUSIVOS:</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Marinho IA — Gerente Financeiro 24h</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2">✓ Método "O Lucro Real do Empreendedor"</li>
                   </ul>
                 </div>
 
                 <div className="pt-6">
                   <a
-                    href="https://pay.cakto.com.br/itbvz49"
+                    href="https://wa.me/5586999568422?text=Ol%C3%A1%2C%20Felipe!%20Vi%20o%20an%C3%BAncio%20do%20Sommar%20App%20e%20quero%20entender%20como%20ter%20acesso."
                     target="_blank"
                     rel="noreferrer"
                     className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
                   >
-                    COMEÇAR PLANO ANUAL <ArrowRight className="w-4 h-4" />
+                    QUERO MEU ACESSO COMPLETO <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
@@ -923,7 +923,7 @@ export default function App() {
               onClick={scrollToPricing}
               className={`${PRIMARY_CTA} text-xs px-8 py-4`}
             >
-              ESCOLHER MEU PLANO <ArrowRight className="w-4 h-4" />
+              QUERO O ACESSO <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </section>
