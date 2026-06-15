@@ -19,7 +19,7 @@ const PRIMARY_CTA =
   'inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold uppercase tracking-widest rounded-xl shadow-lg shadow-[#22C55E]/25 hover:scale-[1.02] active:scale-[0.99] transition-transform duration-200';
 
 const HERO_VIDEO_ID = '2jtToi2wIps';
-const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`;
+const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
 
 type IPhoneMockupProps = {
   src: string;
@@ -745,48 +745,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto items-stretch">
-              {/* PLANO MENSAL */}
-              <div className="p-6 rounded-2xl border border-border bg-[#060606] flex flex-col justify-between">
-                <div>
-                  <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Mensal</h3>
-                  <p className="text-[11px] text-muted-foreground mt-1">Controle total com pagamento flexível.</p>
-                  
-                  <div className="my-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-xs font-bold text-muted-foreground">R$</span>
-                      <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
-                      <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
-                    </div>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-1 uppercase tracking-wider">O preço de um café com pão de queijo pelo seu controle de vida!</p>
-                  </div>
-
-                  <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-muted-foreground font-medium">
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lançamento em Massa via Chat</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Parcelamento automático de cartão</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de Cartões consolidada</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Divisão entre sócios e membros</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> PWA — sem ocupar espaço no celular</li>
-                    <li className="flex items-center gap-2 text-white/90"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
-                    <li className="flex items-center gap-2 text-white/60 pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]/50" /> Bônus exclusivo incluso:</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2">○ Marinho IA — Gerente Financeiro 24h</li>
-                  </ul>
-                </div>
-
-                <div className="pt-6">
-                  <a
-                    href="https://pay.cakto.com.br/ni9nrpf_687767"
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4`}
-                  >
-                    COMEÇAR PLANO MENSAL <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-
+            <div className="grid max-w-md mx-auto items-stretch">
               {/* PLANO ANUAL */}
               <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow">
                 <div>
