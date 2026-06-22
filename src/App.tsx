@@ -851,11 +851,11 @@ export default function App() {
 
         </section>
 
-        {/* PROVA SOCIAL — CARROSSEL (antes da oferta) */}
+        {/* DEPOIMENTOS — CARROSSEL (antes da oferta) */}
         <section className="border-t border-b border-border/40 bg-white/[0.002] py-16 px-4">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-10">
-              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Prova Social Real</span>
+              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">⭐ Depoimentos</span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
                 Quem usa, <span className="text-[#22C55E]">recomenda.</span>
               </h2>
@@ -970,58 +970,24 @@ export default function App() {
                   </ul>
                 </div>
 
-                <div className="pt-6">
+                <div className="pt-6 flex flex-col items-center">
                   <a
                     href="https://pay.cakto.com.br/itbvz49"
                     target="_blank"
                     rel="noreferrer"
                     className={`${PRIMARY_CTA} w-full text-center text-[10px] sm:text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
                   >
-                    Quero o Plano Anual (Melhor Custo-Benefício) <ArrowRight className="w-4 h-4" />
+                    ASSINAR PLANO ANUAL <ArrowRight className="w-4 h-4" />
                   </a>
+                  <span className="relative mt-3 inline-flex items-center justify-center bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] text-[8px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-lg">
+                    <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#060606] border-l border-t border-[#22C55E]/30 rotate-45" aria-hidden />
+                    MELHOR CUSTO-BENEFÍCIO
+                  </span>
                 </div>
               </div>
             </div>
             
             <TrustBadges className="mt-10" />
-          </div>
-        </section>
-
-        {/* Depoimentos em texto — complemento */}
-        <section className="border-b border-border/40 bg-white/[0.002] py-16 px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">⭐ Depoimentos</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">O que dizem nossos <span className="text-[#22C55E]">usuários</span></h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-              <div className="p-5 rounded-xl border border-border bg-[#060606] flex flex-col justify-between gap-4">
-                <p className="text-xs text-muted-foreground font-medium leading-relaxed italic">
-                  "Como prestador de serviço, nunca tinha clareza se estava lucrando ou só girando dinheiro. O Sommar separou meu CPF do CNPJ e mostrou minha margem real — sem planilha."
-                </p>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] flex items-center justify-center text-[11px] font-black">R</div>
-                  <div>
-                    <h5 className="text-[11px] font-extrabold text-white uppercase">Ricardo S.</h5>
-                    <p className="text-[9px] text-neutral-500 font-bold uppercase">Prestador de Serviços</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-5 rounded-xl border border-border bg-[#060606] flex flex-col justify-between gap-4">
-                <p className="text-xs text-muted-foreground font-medium leading-relaxed italic">
-                  "Sou MEI e achava que faturamento era lucro. O Modo Empresarial me mostrou meus custos reais e quanto sobrava de verdade no fim do mês."
-                </p>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] flex items-center justify-center text-[11px] font-black">A</div>
-                  <div>
-                    <h5 className="text-[11px] font-extrabold text-white uppercase">Ana L.</h5>
-                    <p className="text-[9px] text-neutral-500 font-bold uppercase">MEI — Serviços</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
