@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
   CheckCircle2, 
-  ChevronDown, 
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Smartphone, 
   Lock,
   Sparkles,
@@ -12,7 +14,8 @@ import {
   Layers,
   Play,
   ShieldCheck,
-  MousePointerClick
+  MousePointerClick,
+  Info
 } from "lucide-react";
 
 const PRIMARY_CTA =
@@ -66,6 +69,98 @@ function IPhoneMockup({ src, alt, priority = false, tilt = 'none' }: IPhoneMocku
         <div className="absolute -right-[2px] top-[26%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-r-sm opacity-80" aria-hidden />
         <div className="absolute -left-[2px] top-[20%] w-[3px] h-[7%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
         <div className="absolute -left-[2px] top-[30%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
+      </div>
+    </div>
+  );
+}
+
+const VALUE_STACK_ITEMS = [
+  { label: 'Sistema de Controle Duplo (CPF/CNPJ)', price: 'R$ 297/ano' },
+  { label: 'Inteligência Artificial Marinho IA Integrada', price: 'R$ 397/ano' },
+  { label: 'Suporte VIP Direto com os Fundadores', price: 'R$ 147/ano' },
+] as const;
+
+const SOCIAL_PROOF_SLIDES = [
+  {
+    src: '/prova1.jpg',
+    alt: 'Depoimento real de usuário Sommar App',
+    headline: 'Finalmente sei quanto meu negócio lucra de verdade',
+    subtext: 'Usuários reais que pararam de misturar CPF e CNPJ e ganharam clareza sobre margem e fluxo de caixa.',
+  },
+  {
+    src: '/prova2.jpg',
+    alt: 'Prova social Sommar App — feedback de cliente',
+    headline: 'Controle financeiro sem planilha e sem complicação',
+    subtext: 'Autônomos e prestadores de serviço que organizaram receitas, despesas e lucro real em um só lugar.',
+  },
+] as const;
+
+function SocialProofCarousel() {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % SOCIAL_PROOF_SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = SOCIAL_PROOF_SLIDES[current];
+
+  return (
+    <div className="max-w-lg mx-auto">
+      <div className="relative rounded-2xl border border-border bg-[#060606] overflow-hidden shadow-xl">
+        <div className="relative aspect-[4/5] sm:aspect-[3/4] bg-[#0a0a0a]">
+          {SOCIAL_PROOF_SLIDES.map((item, index) => (
+            <img
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              className={`absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500 ${
+                index === current ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setCurrent((prev) => (prev - 1 + SOCIAL_PROOF_SLIDES.length) % SOCIAL_PROOF_SLIDES.length)}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/70 border border-white/10 text-white flex items-center justify-center hover:bg-[#22C55E]/20 hover:border-[#22C55E]/40 transition-colors"
+          aria-label="Depoimento anterior"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setCurrent((prev) => (prev + 1) % SOCIAL_PROOF_SLIDES.length)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/70 border border-white/10 text-white flex items-center justify-center hover:bg-[#22C55E]/20 hover:border-[#22C55E]/40 transition-colors"
+          aria-label="Próximo depoimento"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div className="mt-5 text-center px-2">
+        <p className="text-sm font-extrabold text-white leading-snug">{slide.headline}</p>
+        <p className="text-[11px] text-muted-foreground font-medium mt-2 leading-relaxed">{slide.subtext}</p>
+        <div className="flex items-center justify-center gap-2 mt-4" role="tablist" aria-label="Navegação de depoimentos">
+          {SOCIAL_PROOF_SLIDES.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              role="tab"
+              aria-selected={index === current}
+              aria-label={`Depoimento ${index + 1}`}
+              onClick={() => setCurrent(index)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                index === current ? 'w-6 bg-[#22C55E]' : 'w-1.5 bg-white/20 hover:bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -307,7 +402,7 @@ export default function App() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-white/[0.02] mb-6">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
             <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">
-              Para autônomos e empresários
+              Para autônomos, prestadores e MEIs
             </span>
           </div>
           
@@ -676,26 +771,49 @@ export default function App() {
 
         {/* 7. PÚBLICO-ALVO SECTION */}
         <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40">
-          <div className="text-center max-w-xl mx-auto mb-14">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">Para quem é o <span className="text-[#22C55E]">Sommar App?</span></h2>
-            <p className="text-xs text-muted-foreground mt-2 font-medium">Se você precisa separar vida pessoal da profissional de maneira blindada, o Sommar é focado em você.</p>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Para Quem É</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
+              Para quem é o <span className="text-[#22C55E]">Sommar App?</span>
+            </h2>
+            <p className="text-sm sm:text-base text-white font-bold mt-6 leading-relaxed px-2">
+              O controle financeiro definitivo para{' '}
+              <span className="text-[#22C55E]">Prestadores de Serviços, Autônomos, Profissionais Liberais e Microempreendedores.</span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-3 font-medium leading-relaxed">
+              Se você vive de prestar serviço, faturar por projeto ou operar como MEI — e precisa enxergar lucro real sem misturar CPF e CNPJ — o Sommar foi feito para você.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <div className="p-6 rounded-xl border border-border bg-[#060606] text-center space-y-3">
-              <div className="w-10 h-10 bg-[#22C55E]/5 border border-[#22C55E]/10 rounded-xl flex items-center justify-center mx-auto text-[#22C55E]"><Smartphone className="w-5 h-5" /></div>
-              <h3 className="text-sm font-extrabold text-white uppercase">O CLT Visionário</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Domine suas finanças pessoais hoje e já prepare o terreno para empreender amanhã. O Modo Pessoal é seu ponto de partida estratégico.</p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
             <div className="p-6 rounded-xl border border-border bg-[#060606] text-center space-y-3">
               <div className="w-10 h-10 bg-[#22C55E]/5 border border-[#22C55E]/10 rounded-xl flex items-center justify-center mx-auto text-[#22C55E]"><Sparkles className="w-5 h-5" /></div>
-              <h3 className="text-sm font-extrabold text-white uppercase">O Freelancer / Autônomo</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Renda variável exige flexibilidade constante. Separe seus projetos operacionais das contas de casa e saiba exatamente a sua margem real por mês.</p>
+              <h3 className="text-sm font-extrabold text-white uppercase">Prestador de Serviços</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Consultores, designers, técnicos e profissionais liberais que precisam separar receitas de projetos das contas pessoais e calcular margem real por mês.</p>
+            </div>
+            <div className="p-6 rounded-xl border border-[#22C55E]/30 bg-[#22C55E]/[0.03] text-center space-y-3 relative">
+              <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full whitespace-nowrap">Perfil Ideal</span>
+              <div className="w-10 h-10 bg-[#22C55E]/10 border border-[#22C55E]/20 rounded-xl flex items-center justify-center mx-auto text-[#22C55E]"><Smartphone className="w-5 h-5" /></div>
+              <h3 className="text-sm font-extrabold text-white uppercase">Autônomo / Freelancer</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Renda variável exige clareza constante. Separe seus projetos das contas de casa e saiba exatamente quanto sobrou — não confunda faturamento com lucro.</p>
             </div>
             <div className="p-6 rounded-xl border border-border bg-[#060606] text-center space-y-3">
               <div className="w-10 h-10 bg-[#22C55E]/5 border border-[#22C55E]/10 rounded-xl flex items-center justify-center mx-auto text-[#22C55E]"><BarChart3 className="w-5 h-5" /></div>
-              <h3 className="text-sm font-extrabold text-white uppercase">O Empreendedor / MEI</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Pare de confundir faturamento bruto com lucro líquido. O Modo Empresarial te mostra faturamento, despesas operacionais e Lucro Real com precisão milimétrica.</p>
+              <h3 className="text-sm font-extrabold text-white uppercase">MEI / Microempreendedor</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed font-medium">Pare de confundir faturamento bruto com lucro líquido. O Modo Empresarial mostra receita, custos operacionais e margem com precisão milimétrica.</p>
+            </div>
+          </div>
+
+          <div className="max-w-3xl mx-auto p-5 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] flex gap-4 items-start">
+            <div className="w-9 h-9 rounded-lg border border-amber-500/30 bg-amber-500/10 flex items-center justify-center text-amber-400 flex-shrink-0 mt-0.5">
+              <Info className="w-4 h-4" strokeWidth={1.75} aria-hidden />
+            </div>
+            <div className="text-left min-w-0">
+              <p className="text-[10px] font-extrabold text-amber-400 uppercase tracking-widest mb-1.5">Importante — leia antes de assinar</p>
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                <strong className="text-white/90">Nota:</strong> O Sommar foca 100% no controle do seu fluxo de caixa, cálculo de margem de lucro real e separação de contas (CPF/CNPJ).{' '}
+                <span className="text-white/80">Não possuímos módulo de controle de estoque físico ou frente de caixa (PDV).</span>
+              </p>
             </div>
           </div>
         </section>
@@ -733,6 +851,22 @@ export default function App() {
 
         </section>
 
+        {/* PROVA SOCIAL — CARROSSEL (antes da oferta) */}
+        <section className="border-t border-b border-border/40 bg-white/[0.002] py-16 px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">Prova Social Real</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
+                Quem usa, <span className="text-[#22C55E]">recomenda.</span>
+              </h2>
+              <p className="text-xs text-muted-foreground mt-3 font-medium leading-relaxed max-w-md mx-auto">
+                Autônomos e prestadores de serviço que já organizaram CPF e CNPJ com o Sommar — veja o que dizem na prática.
+              </p>
+            </div>
+            <SocialProofCarousel />
+          </div>
+        </section>
+
         {/* 9. OFERTA E PREÇO - PRICING SECTION */}
         <section id="pricing" className="border-t border-border bg-white/[0.01] py-24 px-4 scroll-mt-16">
           <div className="max-w-4xl mx-auto">
@@ -741,55 +875,109 @@ export default function App() {
                 Separe CPF e CNPJ hoje. <span className="text-[#22C55E]">Veja seu lucro real.</span>
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground mt-4 leading-relaxed font-medium">
-                Um único plano, com acesso completo a tudo. Menos que um almoço por semana para nunca mais misturar contas pessoais com as da empresa.
+                Escolha o plano ideal para o seu momento — com acesso completo a tudo, do controle duplo ao Marinho IA.
               </p>
             </div>
 
-            <div className="grid max-w-md mx-auto items-stretch">
-              {/* PLANO ANUAL */}
-              <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow">
+            {/* Empilhamento de Valor */}
+            <div className="max-w-lg mx-auto mb-12">
+              <p className="text-[10px] font-extrabold text-[#22C55E] uppercase tracking-widest text-center mb-4">O que você levaria separado</p>
+              <div className="rounded-2xl border border-border bg-[#060606] overflow-hidden">
+                <ul className="divide-y divide-border/60">
+                  {VALUE_STACK_ITEMS.map(({ label, price }) => (
+                    <li key={label} className="flex items-center justify-between gap-4 px-5 py-4">
+                      <span className="text-[11px] sm:text-xs text-white/90 font-medium leading-snug">{label}</span>
+                      <span className="text-[10px] sm:text-[11px] text-neutral-500 font-bold whitespace-nowrap flex-shrink-0">
+                        Valor Normal: <span className="line-through">{price}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="px-5 py-4 bg-red-500/[0.06] border-t border-red-500/20 flex items-center justify-between gap-4">
+                  <span className="text-[11px] font-extrabold text-white uppercase tracking-wide">Valor Total Somado</span>
+                  <span className="text-sm font-extrabold text-red-400 line-through">R$ 841,00/ano</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Cards de Preço */}
+            <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto items-stretch">
+              {/* CARD A — Plano Mensal */}
+              <div className="p-6 rounded-2xl border border-border bg-[#060606] flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Completo</h3>
-                    <span className="bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
-                      ★ Acesso Total
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground mt-1">Tudo o que o Sommar tem, em um único plano anual.</p>
-                  
+                  <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Mensal</h3>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Ideal para testar a ferramenta sem compromisso.</p>
+
                   <div className="my-6">
-                    <span className="text-neutral-500 line-through text-[11px] font-bold block">R$ 397,00</span>
-                    <div className="flex items-baseline gap-1 mt-0.5">
+                    <div className="flex items-baseline gap-1">
                       <span className="text-xs font-bold text-muted-foreground">R$</span>
-                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297</span>
-                      <span className="text-[10px] font-bold text-neutral-500"> /ano</span>
+                      <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
+                      <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
                     </div>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-1 uppercase tracking-wider">ou 12x de R$ 30,76 (ECONOMIZE + DE R$ 100)</p>
                   </div>
 
-                  <ul className="flex flex-col gap-3 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
-                    <li className="flex items-center gap-2 text-[#22C55E] font-extrabold uppercase tracking-wider"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> + Bônus Exclusivos:</li>
-                    <li className="flex items-center gap-2 text-white font-bold pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Marinho IA — Gerente Financeiro 24h</li>
-                    <li className="flex items-center gap-2 text-white font-bold pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Modo Empresarial</li>
-                    <li className="flex items-center gap-2 text-white/90 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Método "O Lucro Real do Empreendedor"</li>
-                    <li className="flex items-center gap-2 pt-2 border-t border-white/5"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lançamento em Massa via Chat</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Parcelamento automático de cartão</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Gestão de Cartões consolidada</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Divisão entre sócios e membros</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> PWA — sem ocupar espaço no celular</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Segurança com TLS (nível bancário)</li>
+                  <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/80 font-medium">
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Acesso completo ao Sommar</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Modo Pessoal + Empresarial</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Marinho IA integrado</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Cancele quando quiser</li>
                   </ul>
                 </div>
 
                 <div className="pt-6">
                   <a
-                    href="https://wa.me/5586999568422?text=Ol%C3%A1%2C%20Felipe!%20Vi%20o%20an%C3%BAncio%20do%20Sommar%20App%20e%20quero%20entender%20como%20ter%20acesso."
+                    href="https://pay.cakto.com.br/ni9nrpf_687767"
                     target="_blank"
                     rel="noreferrer"
-                    className={`${PRIMARY_CTA} w-full text-center text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
+                    className="w-full inline-flex items-center justify-center gap-2 border border-border bg-white/[0.03] text-white font-extrabold text-[11px] uppercase tracking-widest py-4 rounded-xl hover:bg-white/[0.06] transition-colors"
                   >
-                    QUERO MEU ACESSO COMPLETO <ArrowRight className="w-4 h-4" />
+                    Assinar Plano Mensal
+                  </a>
+                </div>
+              </div>
+
+              {/* CARD B — Plano Anual (Destaque) */}
+              <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow animate-pulse-glow sm:scale-[1.02] sm:-my-1">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
+                  ★ Mais Econômico
+                </span>
+
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap mt-1">
+                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Anual</h3>
+                    <span className="bg-[#22C55E]/15 border border-[#22C55E]/30 text-[#22C55E] text-[8px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full">
+                      Mais Vendido
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Economize + de R$100 no ano. Acesso completo e sem limites.</p>
+
+                  <div className="my-6">
+                    <span className="text-neutral-500 line-through text-[11px] font-bold block">De R$ 841,00</span>
+                    <div className="flex items-baseline gap-1 mt-0.5 flex-wrap">
+                      <span className="text-xs font-bold text-muted-foreground">por apenas R$</span>
+                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297,00</span>
+                      <span className="text-[10px] font-bold text-neutral-500"> à vista</span>
+                    </div>
+                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">Ou em até 12x de R$ 30,68 (com taxas)</p>
+                  </div>
+
+                  <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
+                    <li className="flex items-center gap-2 text-[#22C55E] font-extrabold uppercase tracking-wider"><CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" /> Tudo do plano mensal +</li>
+                    <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> E-book "O Lucro Real do Empreendedor"</li>
+                    <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Suporte VIP com os Fundadores</li>
+                    <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Atualizações vitalícias inclusas</li>
+                    <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
+                  </ul>
+                </div>
+
+                <div className="pt-6">
+                  <a
+                    href="https://pay.cakto.com.br/itbvz49"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${PRIMARY_CTA} w-full text-center text-[10px] sm:text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
+                  >
+                    Quero o Plano Anual (Melhor Custo-Benefício) <ArrowRight className="w-4 h-4" />
                   </a>
                 </div>
               </div>
@@ -799,7 +987,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* PROVA SOCIAL - TESTIMONIALS SECTION */}
+        {/* Depoimentos em texto — complemento */}
         <section className="border-b border-border/40 bg-white/[0.002] py-16 px-4">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
@@ -810,26 +998,26 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
               <div className="p-5 rounded-xl border border-border bg-[#060606] flex flex-col justify-between gap-4">
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed italic">
-                  "Sempre desistia de anotar meus gastos porque nenhum app aceitava que meu salário mudava todo mês com as comissões. O Sommar resolveu isso com a edição de valores mensais!"
+                  "Como prestador de serviço, nunca tinha clareza se estava lucrando ou só girando dinheiro. O Sommar separou meu CPF do CNPJ e mostrou minha margem real — sem planilha."
                 </p>
                 <div className="flex items-center gap-2.5">
                   <div className="w-7 h-7 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] flex items-center justify-center text-[11px] font-black">R</div>
                   <div>
                     <h5 className="text-[11px] font-extrabold text-white uppercase">Ricardo S.</h5>
-                    <p className="text-[9px] text-neutral-500 font-bold uppercase">Autônomo</p>
+                    <p className="text-[9px] text-neutral-500 font-bold uppercase">Prestador de Serviços</p>
                   </div>
                 </div>
               </div>
 
               <div className="p-5 rounded-xl border border-border bg-[#060606] flex flex-col justify-between gap-4">
                 <p className="text-xs text-muted-foreground font-medium leading-relaxed italic">
-                  "O parcelamento automático de cartão me salvou. Finalmente sei exatamente quanto do meu salário já está comprometido para os próximos meses."
+                  "Sou MEI e achava que faturamento era lucro. O Modo Empresarial me mostrou meus custos reais e quanto sobrava de verdade no fim do mês."
                 </p>
                 <div className="flex items-center gap-2.5">
                   <div className="w-7 h-7 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] flex items-center justify-center text-[11px] font-black">A</div>
                   <div>
                     <h5 className="text-[11px] font-extrabold text-white uppercase">Ana L.</h5>
-                    <p className="text-[9px] text-neutral-500 font-bold uppercase">Empregada CLT</p>
+                    <p className="text-[9px] text-neutral-500 font-bold uppercase">MEI — Serviços</p>
                   </div>
                 </div>
               </div>
