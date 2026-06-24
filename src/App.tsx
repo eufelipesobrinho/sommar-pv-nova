@@ -830,14 +830,14 @@ export default function App() {
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Bônus Incluso no plano</span>
                 <h4 className="text-xs font-extrabold text-white uppercase">Marinho IA — Gerente Financeiro 24h</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça formulários engessados. O Marinho gerencia e lança suas despesas por chat nativo, organizando fluxos em segundos.</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Tenha um gerente financeiro no seu bolso 24h por dia. Esqueça planilhas ou formulários engessados. Mande um áudio ou mensagem rápida pelo chat e o Marinho organiza e categoriza tudo para você em menos de 2 minutos.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">E-book Completo</span>
-                <h4 className="text-xs font-extrabold text-white uppercase">Método "O Lucro Real do Empreendedor"</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">O guia estratégico definitivo para acabar com o caos financeiro empresarial e separar de vez seu CPF da sua movimentação de caixa.</p>
+                <h4 className="text-xs font-extrabold text-white uppercase">MÉTODO: O LUCRO REAL DO EMPREENDEDOR</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">O plano de ação definitivo para blindar o seu caixa. Descubra o passo a passo prático para economizar até R$ 2.000 em juros, boletos esquecidos e impostos todos os meses apenas organizando as movimentações do seu CPF e CNPJ.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
@@ -900,6 +900,12 @@ export default function App() {
               </div>
             </div>
 
+            <div className="max-w-2xl mx-auto mb-6 p-4 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] text-center">
+              <p className="text-[10px] sm:text-[11px] text-amber-300 font-extrabold uppercase tracking-wider leading-relaxed">
+                ⚠️ ATENÇÃO: As condições de juros reduzidos da Cakto e os bônus exclusivos inclusos são garantidos apenas para as adesões realizadas durante esta janela de lançamento.
+              </p>
+            </div>
+
             {/* Cards de Preço */}
             <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto items-stretch">
               {/* CARD A — Plano Mensal */}
@@ -914,6 +920,7 @@ export default function App() {
                       <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
                       <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
                     </div>
+                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa de serviço Cakto)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/80 font-medium">
@@ -958,7 +965,8 @@ export default function App() {
                       <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297,00</span>
                       <span className="text-[10px] font-bold text-neutral-500"> à vista</span>
                     </div>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">Ou em até 12x de R$ 30,68 (com taxas)</p>
+                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa de serviço Cakto)</p>
+                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 30,76 (COM TAXAS)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
