@@ -21,7 +21,7 @@ import {
 const PRIMARY_CTA =
   'inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold uppercase tracking-widest rounded-xl shadow-lg shadow-[#22C55E]/25 hover:scale-[1.02] active:scale-[0.99] transition-transform duration-200';
 
-const HERO_VIDEO_ID = '2jtToi2wIps';
+const HERO_VIDEO_ID = 'I9e5ozG_HP4';
 const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
 
 type IPhoneMockupProps = {
