@@ -24,51 +24,51 @@ const PRIMARY_CTA =
 const HERO_VIDEO_ID = 'I9e5ozG_HP4';
 const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
 
-type IPhoneMockupProps = {
+type PhoneMockupProps = {
   src: string;
   alt: string;
   priority?: boolean;
-  tilt?: 'left' | 'right' | 'none';
+  arrowSide?: 'left' | 'right';
 };
 
-function IPhoneMockup({ src, alt, priority = false, tilt = 'none' }: IPhoneMockupProps) {
-  const tiltClass =
-    tilt === 'left'
-      ? '-rotate-2 sm:-rotate-[4deg] md:-rotate-[6deg]'
-      : tilt === 'right'
-        ? 'rotate-2 sm:rotate-[4deg] md:rotate-[6deg]'
-        : '';
+function PhoneMockup({ src, alt, priority = false, arrowSide = 'left' }: PhoneMockupProps) {
+  const arrowClass =
+    arrowSide === 'left'
+      ? 'sm:-left-9 sm:top-1/2 sm:-translate-y-1/2 sm:translate-x-0 sm:rotate-0'
+      : 'sm:-right-9 sm:top-1/2 sm:-translate-y-1/2 sm:translate-x-0 sm:rotate-180';
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[220px] sm:max-w-[260px] md:max-w-[280px] ${tiltClass} transition-transform duration-300 hover:rotate-0`}
+      className="relative mx-auto w-full max-w-[220px] sm:max-w-[260px] md:max-w-[280px] transition-transform duration-300 hover:-translate-y-1"
     >
+      <div
+        className={`absolute -top-7 left-1/2 z-20 flex h-7 w-7 -translate-x-1/2 rotate-90 items-center justify-center rounded-full border border-[#22C55E]/40 bg-[#22C55E]/10 text-[#22C55E] shadow-lg shadow-[#22C55E]/10 ${arrowClass}`}
+        aria-hidden
+      >
+        <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+      </div>
       <div
         className="absolute inset-6 sm:inset-8 rounded-[40px] bg-[#22C55E]/[0.07] blur-2xl pointer-events-none"
         aria-hidden
       />
-      <div className="relative rounded-[42px] sm:rounded-[44px] p-[2px] bg-gradient-to-b from-[#454545] via-[#1c1c1c] to-[#080808] shadow-[0_28px_56px_-14px_rgba(0,0,0,0.85)]">
-        <div className="rounded-[40px] sm:rounded-[42px] bg-[#050505] p-[9px] sm:p-[10px] border border-white/[0.07]">
-          <div className="relative rounded-[30px] sm:rounded-[32px] overflow-hidden bg-[#050505] aspect-[9/19.5]">
-            <div
-              className="absolute top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-20 w-[32%] max-w-[100px] h-[22px] sm:h-[26px] bg-[#050505] rounded-full border border-white/[0.08] shadow-[inset_0_1px_2px_rgba(255,255,255,0.06)]"
-              aria-hidden
-            />
+      <div className="relative rounded-[36px] sm:rounded-[40px] bg-gradient-to-br from-[#5f6368] via-[#171717] to-[#050505] p-[3px] shadow-[0_28px_56px_-14px_rgba(0,0,0,0.85)]">
+        <div className="rounded-[33px] sm:rounded-[37px] bg-[#050505] p-[6px] sm:p-[7px] border border-white/[0.08]">
+          <div className="relative aspect-[390/844] overflow-hidden rounded-[27px] sm:rounded-[31px] bg-[#050505]">
             <img
               src={src}
               alt={alt}
               width={390}
               height={844}
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-contain object-center"
               loading={priority ? 'eager' : 'lazy'}
               decoding="async"
               {...(priority ? { fetchPriority: 'high' as const } : { fetchPriority: 'low' as const })}
             />
           </div>
         </div>
-        <div className="absolute -right-[2px] top-[26%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-r-sm opacity-80" aria-hidden />
-        <div className="absolute -left-[2px] top-[20%] w-[3px] h-[7%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
-        <div className="absolute -left-[2px] top-[30%] w-[3px] h-[11%] bg-[#2a2a2a] rounded-l-sm opacity-60" aria-hidden />
+        <div className="absolute -right-[3px] top-[24%] h-[12%] w-[3px] rounded-r-sm bg-[#343434] opacity-80" aria-hidden />
+        <div className="absolute -left-[3px] top-[18%] h-[7%] w-[3px] rounded-l-sm bg-[#343434] opacity-70" aria-hidden />
+        <div className="absolute -left-[3px] top-[29%] h-[11%] w-[3px] rounded-l-sm bg-[#343434] opacity-70" aria-hidden />
       </div>
     </div>
   );
@@ -520,7 +520,7 @@ export default function App() {
               </button>
             </div>
             
-            <IPhoneMockup src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" tilt="right" />
+            <PhoneMockup src="/lancar-sommar.jpg" alt="Interface de Lançamentos Sommar" arrowSide="left" />
           </div>
         </section>
 
@@ -588,7 +588,7 @@ export default function App() {
               </ul>
             </div>
             
-            <IPhoneMockup src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" tilt="left" />
+            <PhoneMockup src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" arrowSide="left" />
           </div>
         </section>
 
@@ -634,7 +634,7 @@ export default function App() {
               </button>
             </div>
             
-            <IPhoneMockup src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" tilt="right" />
+            <PhoneMockup src="/resumo-sommar.jpg" alt="Análise de Dados Gráficos Finanças" arrowSide="left" />
           </div>
         </section>
 
@@ -668,10 +668,10 @@ export default function App() {
                 </p>
               </div>
               <div className="order-1 md:order-2 flex justify-center md:justify-end px-2 sm:px-0">
-                <IPhoneMockup
+                <PhoneMockup
                   src="/rotinas-sommar.jpg"
                   alt="Módulo de Rotinas Sommar App"
-                  tilt="right"
+                  arrowSide="left"
                 />
               </div>
             </div>
@@ -679,10 +679,10 @@ export default function App() {
             {/* Compromissos — Controle */}
             <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
               <div className="flex justify-center md:justify-start px-2 sm:px-0">
-                <IPhoneMockup
+                <PhoneMockup
                   src="/compromissos-sommar.jpg"
                   alt="Módulo de Compromissos e Agenda Sommar App"
-                  tilt="left"
+                  arrowSide="right"
                 />
               </div>
               <div className="space-y-4 text-center md:text-left">
