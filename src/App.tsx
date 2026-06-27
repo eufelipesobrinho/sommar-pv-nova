@@ -24,6 +24,45 @@ const PRIMARY_CTA =
 const HERO_VIDEO_ID = 'I9e5ozG_HP4';
 const HERO_VIDEO_EMBED = `https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
 
+const DIAGNOSIS_QUESTIONS = [
+  {
+    id: 'modelo',
+    question: 'Qual é o modelo atual do seu negócio?',
+    options: [
+      'Prestador de Serviços / Profissional Liberal',
+      'Autônomo / Freelancer',
+      'Microempreendedor (MEI)',
+    ],
+  },
+  {
+    id: 'gargalo',
+    question: 'Qual o seu maior gargalo financeiro hoje?',
+    options: [
+      'Misturo o dinheiro pessoal com o da empresa',
+      'Não sei o meu lucro real líquido',
+      'Perco muito tempo com planilhas e cadernos',
+    ],
+  },
+  {
+    id: 'gestao',
+    question: 'Como você gerencia suas finanças atualmente?',
+    options: [
+      'No caderno ou anotações soltas',
+      'Em planilhas complexas no Excel',
+      'Não gerencio, está tudo na minha cabeça',
+    ],
+  },
+] as const;
+
+const PROCESSING_MESSAGES = [
+  'Analisando perfil comercial...',
+  'Calculando nível de sangria de caixa...',
+  'Gerando diagnóstico...',
+] as const;
+
+type Page = 'quiz' | 'vendas' | 'obrigado';
+type DiagnosisAnswers = Record<(typeof DIAGNOSIS_QUESTIONS)[number]['id'], string>;
+
 type PhoneMockupProps = {
   src: string;
   alt: string;
@@ -214,19 +253,188 @@ function TrustBadges({ className = '' }: { className?: string }) {
   );
 }
 
+function DiagnosisQuiz({ onComplete }: { onComplete: (pain: string) => void }) {
+  const [started, setStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<Partial<DiagnosisAnswers>>({});
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingMessage, setProcessingMessage] = useState(0);
+  const [isAdvancing, setIsAdvancing] = useState(false);
+
+  useEffect(() => {
+    if (!isProcessing) return;
+
+    const messageTimer = window.setInterval(() => {
+      setProcessingMessage((current) => (current + 1) % PROCESSING_MESSAGES.length);
+    }, 800);
+
+    return () => window.clearInterval(messageTimer);
+  }, [isProcessing]);
+
+  const handleAnswer = (answer: string) => {
+    if (isAdvancing || isProcessing) return;
+
+    const question = DIAGNOSIS_QUESTIONS[currentQuestion];
+    const nextAnswers = { ...answers, [question.id]: answer };
+
+    setAnswers(nextAnswers);
+
+    if (currentQuestion < DIAGNOSIS_QUESTIONS.length - 1) {
+      setIsAdvancing(true);
+      window.setTimeout(() => {
+        setCurrentQuestion((current) => current + 1);
+        setIsAdvancing(false);
+      }, 180);
+      return;
+    }
+
+    const selectedPain = nextAnswers.gargalo ?? 'Não sei o meu lucro real líquido';
+    setIsProcessing(true);
+    window.setTimeout(() => onComplete(selectedPain), 2500);
+  };
+
+  const progress = started ? ((currentQuestion + 1) / DIAGNOSIS_QUESTIONS.length) * 100 : 0;
+  const question = DIAGNOSIS_QUESTIONS[currentQuestion];
+
+  return (
+    <div className="min-h-screen overflow-hidden bg-[#020302] text-white font-sora selection:bg-[#22C55E]/30">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.18),_transparent_34%),radial-gradient(circle_at_bottom,_rgba(34,197,94,0.08),_transparent_32%)]" aria-hidden />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#22C55E]/70 to-transparent" aria-hidden />
+
+      <main className="relative z-10 flex min-h-screen items-center justify-center px-4 py-6 sm:py-10">
+        <section className="w-full max-w-md sm:max-w-lg">
+          <div className="mb-8 flex items-center justify-center gap-3">
+            <img src="/favicon.jpg" alt="Sommar App Logo" className="h-10 w-10 rounded-xl object-contain shadow-lg shadow-[#22C55E]/10" />
+            <span className="text-xl font-extrabold tracking-tight">
+              <span className="text-[#22C55E]">Sommar</span> App
+            </span>
+          </div>
+
+          <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#050605]/90 p-5 shadow-[0_30px_90px_-35px_rgba(34,197,94,0.65)] backdrop-blur-xl sm:p-7">
+            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#22C55E]/10 blur-3xl" aria-hidden />
+
+            {!started && !isProcessing && (
+              <div className="relative space-y-7 text-center transition-all duration-500">
+                <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#22C55E]/25 bg-[#22C55E]/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#4ADE80]">
+                  <Sparkles className="h-3.5 w-3.5" aria-hidden />
+                  Diagnóstico gratuito
+                </div>
+
+                <div className="space-y-4">
+                  <h1 className="text-3xl font-black uppercase leading-[0.98] tracking-tight text-white sm:text-4xl">
+                    Descubra em 1 minuto por que você trabalha tanto e não vê a cor do seu lucro líquido.
+                  </h1>
+                  <p className="mx-auto max-w-sm text-sm font-medium leading-relaxed text-white/62">
+                    Este diagnóstico rápido analisa a saúde financeira de autônomos, MEIs e prestadores de serviços.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setStarted(true)}
+                  className={`${PRIMARY_CTA} w-full px-5 py-5 text-[11px] sm:text-xs`}
+                >
+                  INICIAR DIAGNÓSTICO GRATUITO <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
+                  3 perguntas rápidas. Sem cadastro.
+                </p>
+              </div>
+            )}
+
+            {started && !isProcessing && (
+              <div key={question.id} className="relative animate-[fadeIn_0.35s_ease-out] space-y-6">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-[10px] font-extrabold uppercase tracking-[0.2em] text-white/40">
+                    <span>Etapa {currentQuestion + 1} de {DIAGNOSIS_QUESTIONS.length}</span>
+                    <span>{Math.round(progress)}%</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#86EFAC] transition-all duration-500"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2 text-center">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-[#4ADE80]">
+                    Diagnóstico Sommar
+                  </p>
+                  <h2 className="text-2xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl">
+                    {question.question}
+                  </h2>
+                </div>
+
+                <div className="space-y-3">
+                  {question.options.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      disabled={isAdvancing}
+                      onClick={() => handleAnswer(option)}
+                      className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-4 text-left text-sm font-extrabold leading-snug text-white transition-all duration-200 hover:border-[#22C55E]/55 hover:bg-[#22C55E]/10 hover:shadow-lg hover:shadow-[#22C55E]/10 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70"
+                    >
+                      <span>{option}</span>
+                      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/40 text-[#22C55E] transition-transform duration-200 group-hover:translate-x-1">
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isProcessing && (
+              <div className="relative flex min-h-[430px] flex-col items-center justify-center space-y-8 text-center animate-[fadeIn_0.35s_ease-out]">
+                <div className="relative flex h-24 w-24 items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border border-[#22C55E]/20" />
+                  <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-[#22C55E] border-r-[#4ADE80] animate-spin" />
+                  <div className="h-12 w-12 rounded-2xl bg-[#22C55E]/10 border border-[#22C55E]/25 flex items-center justify-center text-[#22C55E]">
+                    <BarChart3 className="h-6 w-6" aria-hidden />
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.26em] text-[#4ADE80]">
+                    Aguarde seu resultado
+                  </p>
+                  <h2 className="text-2xl font-black uppercase tracking-tight text-white">
+                    {PROCESSING_MESSAGES[processingMessage]}
+                  </h2>
+                  <div className="mx-auto mt-5 h-1.5 w-56 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-gradient-to-r from-[#22C55E] via-[#86EFAC] to-[#22C55E] animate-[pulse_0.8s_ease-in-out_infinite]" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'vendas' | 'obrigado'>('vendas');
+  const [currentPage, setCurrentPage] = useState<Page>('quiz');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [heroVideoActive, setHeroVideoActive] = useState(false);
+  const [diagnosisPain, setDiagnosisPain] = useState('');
 
   useEffect(() => {
     const handleLocation = () => {
       if (window.location.pathname === '/obrigado') {
         setCurrentPage('obrigado');
-      } else {
+      } else if (window.location.pathname === '/diagnostico') {
         setCurrentPage('vendas');
+      } else {
+        setCurrentPage('quiz');
       }
     };
+
+    const urlPain = new URLSearchParams(window.location.search).get('dor');
+    setDiagnosisPain(urlPain ?? sessionStorage.getItem('sommar_diagnosis_pain') ?? '');
     handleLocation();
     window.addEventListener('popstate', handleLocation);
     return () => window.removeEventListener('popstate', handleLocation);
@@ -322,6 +530,14 @@ export default function App() {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
+  const completeDiagnosis = (pain: string) => {
+    sessionStorage.setItem('sommar_diagnosis_pain', pain);
+    setDiagnosisPain(pain);
+    window.history.pushState({}, '', `/diagnostico?dor=${encodeURIComponent(pain)}`);
+    setCurrentPage('vendas');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   // ----------------------------------------------------------------
   // PÁGINA DE OBRIGADO (Print 1000551061)
   // ----------------------------------------------------------------
@@ -371,6 +587,10 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'quiz') {
+    return <DiagnosisQuiz onComplete={completeDiagnosis} />;
+  }
+
   // ----------------------------------------------------------------
   // PÁGINA DE VENDAS PRINCIPAL (PV)
   // ----------------------------------------------------------------
@@ -399,6 +619,16 @@ export default function App() {
         
         {/* 1. HERO SECTION - CPF x CNPJ */}
         <section className="max-w-4xl mx-auto px-4 pt-12 sm:pt-16 pb-12 text-center">
+          {diagnosisPain && (
+            <div className="mx-auto mb-5 max-w-2xl rounded-2xl border border-[#22C55E]/25 bg-[#22C55E]/[0.07] px-4 py-3 text-left shadow-lg shadow-[#22C55E]/5">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#4ADE80]">
+                Diagnóstico concluído
+              </p>
+              <p className="mt-1 text-xs font-semibold leading-relaxed text-white/80">
+                Pelo seu perfil, o principal gargalo hoje é: <strong className="text-white">{diagnosisPain}</strong>. Veja como o Sommar ajuda a resolver isso sem planilhas.
+              </p>
+            </div>
+          )}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-white/[0.02] mb-6">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
             <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">
@@ -407,7 +637,7 @@ export default function App() {
           </div>
           
           <h1 className="text-2xl sm:text-4xl md:text-[2.65rem] font-extrabold uppercase tracking-tight text-white leading-[1.15] mb-6 max-w-3xl mx-auto">
-            Pare de misturar o dinheiro da casa com o da empresa. <span className="text-[#22C55E]">Veja seu lucro real</span> sem planilha.
+            Seu diagnóstico está pronto: O seu negócio está operando no escuro devido à falta de separação entre CPF e CNPJ. <span className="text-[#22C55E]">Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.</span>
           </h1>
           
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
@@ -829,22 +1059,22 @@ export default function App() {
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Bônus Incluso no plano</span>
-                <h4 className="text-xs font-extrabold text-white uppercase">Marinho IA — Gerente Financeiro 24h</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Tenha um gerente financeiro no seu bolso 24h por dia. Esqueça planilhas ou formulários engessados. Mande um áudio ou mensagem rápida pelo chat e o Marinho organiza e categoriza tudo para você em menos de 2 minutos.</p>
+                <h4 className="text-xs font-extrabold text-white uppercase">MARINHO IA - SEU GERENTE FINANCEIRO 24H</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça planilhas ou preenchimentos manuais chatos. Você envia uma mensagem de texto corrido ou áudio no chat do WhatsApp/App e o Marinho processa, categoriza e separa o seu CPF do seu CNPJ automaticamente. É gestão de gente grande na velocidade de uma mensagem.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">E-book Completo</span>
-                <h4 className="text-xs font-extrabold text-white uppercase">MÉTODO: O LUCRO REAL DO EMPREENDEDOR</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">O plano de ação definitivo para blindar o seu caixa. Descubra o passo a passo prático para economizar até R$ 2.000 em juros, boletos esquecidos e impostos todos os meses apenas organizando as movimentações do seu CPF e CNPJ.</p>
+                <h4 className="text-xs font-extrabold text-white uppercase">MÉTODO EXCLUSIVO: O LUCRO REAL DO EMPREENDEDOR</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">O mapa secreto em formato de e-book para estancar as perdas do seu caixa. Descubra como prestadores de serviços economizam até R$ 2.000 por mês apenas eliminando custos fantasmas e cobrando o preço correto por seus projetos.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Valor Incalculável</span>
-                <h4 className="text-xs font-extrabold text-white uppercase">Acesso Vitalício às Atualizações</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Tenha acesso livre a todas as futuras atualizações e melhorias na inteligência do assistente Marinho IA sem pagar nenhuma taxa adicional.</p>
+                <h4 className="text-xs font-extrabold text-white uppercase">ACESSO VITALÍCIO ÀS ATUALIZAÇÕES DO ECOSSISTEMA</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Você garante a versão V2 hoje e nunca mais pagará nenhuma mensalidade ou taxa adicional pelas próximas evoluções da nossa inteligência artificial. O seu preço fica blindado para sempre.</p>
               </div>
             </div>
           </div>
@@ -912,15 +1142,15 @@ export default function App() {
               <div className="p-6 rounded-2xl border border-border bg-[#060606] flex flex-col justify-between">
                 <div>
                   <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Mensal</h3>
-                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Ideal para testar a ferramenta sem compromisso.</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Ideal para validar sua gestão.</p>
 
                   <div className="my-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-xs font-bold text-muted-foreground">R$</span>
-                      <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
+                      <span className="text-4xl font-extrabold text-white tracking-tight">29,90</span>
                       <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
                     </div>
-                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa de serviço Cakto)</p>
+                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto. Total: R$ 30,89)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/80 font-medium">
@@ -938,7 +1168,7 @@ export default function App() {
                     rel="noreferrer"
                     className="w-full inline-flex items-center justify-center gap-2 border border-border bg-white/[0.03] text-white font-extrabold text-[11px] uppercase tracking-widest py-4 rounded-xl hover:bg-white/[0.06] transition-colors"
                   >
-                    Assinar Plano Mensal
+                    QUERO O PLANO MENSAL
                   </a>
                 </div>
               </div>
@@ -946,7 +1176,7 @@ export default function App() {
               {/* CARD B — Plano Anual (Destaque) */}
               <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow animate-pulse-glow sm:scale-[1.02] sm:-my-1">
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
-                  ★ Mais Econômico
+                  ★ Mais vendido / Melhor custo-benefício
                 </span>
 
                 <div>
@@ -956,17 +1186,17 @@ export default function App() {
                       Mais Vendido
                     </span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Economize + de R$100 no ano. Acesso completo e sem limites.</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">A melhor escolha para blindar seu preço e destravar os bônus de maior valor.</p>
 
                   <div className="my-6">
                     <span className="text-neutral-500 line-through text-[11px] font-bold block">De R$ 841,00</span>
                     <div className="flex items-baseline gap-1 mt-0.5 flex-wrap">
-                      <span className="text-xs font-bold text-muted-foreground">por apenas R$</span>
-                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297,00</span>
+                      <span className="text-xs font-bold text-muted-foreground">Por apenas R$</span>
+                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">197,00</span>
                       <span className="text-[10px] font-bold text-neutral-500"> à vista</span>
                     </div>
-                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa de serviço Cakto)</p>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 30,76 (COM TAXAS)</p>
+                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto)</p>
+                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 20,43 (COM TAXAS)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
@@ -985,7 +1215,7 @@ export default function App() {
                     rel="noreferrer"
                     className={`${PRIMARY_CTA} w-full text-center text-[10px] sm:text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
                   >
-                    ASSINAR PLANO ANUAL <ArrowRight className="w-4 h-4" />
+                    QUERO O PLANO ANUAL COM DESCONTO <ArrowRight className="w-4 h-4" />
                   </a>
                   <span className="relative mt-3 inline-flex items-center justify-center bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] text-[8px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-lg">
                     <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#060606] border-l border-t border-[#22C55E]/30 rotate-45" aria-hidden />
