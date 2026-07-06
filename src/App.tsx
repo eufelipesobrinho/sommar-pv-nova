@@ -9,8 +9,6 @@ import {
   Lock,
   Sparkles,
   BarChart3,
-  Calendar,
-  ListChecks,
   Layers,
   Play,
   ShieldCheck,
@@ -575,7 +573,7 @@ export default function App() {
           <div className="w-full text-left p-6 rounded-2xl gradient-border mb-8 bg-[#0a0a0a]/50">
             <h4 className="text-xs font-extrabold text-white uppercase mb-3 tracking-wider">Dúvidas? Fale direto comigo:</h4>
             <a href="https://wa.me/5586999568422" target="_blank" rel="noreferrer" className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-black font-extrabold text-xs uppercase tracking-widest py-3.5 rounded-xl transition-transform hover:scale-[1.01]">
-              Chamar no WhatsApp
+              Falar com o Suporte
             </a>
           </div>
         </main>
@@ -800,25 +798,28 @@ export default function App() {
         </section>
 
         {/* 5. MARINHO IA SECTION (MOCK SMARTPHONE CELULAR 2) */}
-        <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40 bg-white/[0.005]">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4 text-center md:text-left">
+        <section className="max-w-4xl mx-auto px-4 py-16 sm:py-20 border-b border-border/40 bg-white/[0.005]">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div className="space-y-4 text-center md:text-left order-2 md:order-1">
               <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-1 rounded-md uppercase tracking-widest inline-flex items-center gap-1">
-                <Sparkles className="w-3 h-3" /> Consultor IA 24h
+                <Sparkles className="w-3 h-3" /> Gerente Financeiro Digital
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">
-                Anote gastos pelo <span className="text-[#22C55E]">chat</span> em segundos.
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tight leading-tight">
+                O <span className="text-[#22C55E]">Marinho IA</span> elimina planilhas complexas do seu dia a dia.
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
-                <strong className="text-white">Sem formulário chato.</strong> Você manda os gastos por mensagem e o Sommar organiza tudo — <strong className="text-[#22C55E]">já separado entre pessoal e empresa.</strong>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium max-w-md mx-auto md:mx-0">
+                Seu <strong className="text-white">Gerente Financeiro Digital 24h</strong> dentro do app. Envie comandos em texto corrido ou fotos de recibos e comprovantes — o Marinho lê, categoriza e separa automaticamente entre <strong className="text-[#22C55E]">CPF e CNPJ</strong>, sem preenchimento manual.
               </p>
-              <ul className="flex flex-col gap-2 pt-2 text-xs font-bold uppercase tracking-wide text-white/90 text-left max-w-xs mx-auto md:mx-0">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Vários gastos de uma vez</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" /> Lucro atualizado na hora</li>
+              <ul className="flex flex-col gap-2.5 pt-2 text-[11px] sm:text-xs font-bold uppercase tracking-wide text-white/90 text-left max-w-sm mx-auto md:mx-0">
+                <li className="flex items-start sm:items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0 mt-0.5 sm:mt-0" /> Comandos em texto e leitura de comprovantes</li>
+                <li className="flex items-start sm:items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0 mt-0.5 sm:mt-0" /> Vários lançamentos de uma só vez</li>
+                <li className="flex items-start sm:items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0 mt-0.5 sm:mt-0" /> Lucro e margem atualizados na hora</li>
               </ul>
             </div>
             
-            <PhoneMockup src="/marinho-sommar.jpg" alt="Assistente Virtual Marinho Inteligência Financeira" arrowSide="left" />
+            <div className="order-1 md:order-2">
+              <PhoneMockup src="/marinho-sommar.jpg" alt="Marinho IA — Gerente Financeiro Digital Sommar App" arrowSide="left" />
+            </div>
           </div>
         </section>
 
@@ -868,76 +869,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* ECOSSISTEMA SOMMAR — ROTINAS & COMPROMISSOS */}
-        <section className="border-t border-b border-border/40 bg-[#050505] py-20 px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest inline-flex items-center gap-1.5">
-                <Layers className="w-3 h-3" /> Ecossistema Sommar
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
-                Um só app. <span className="text-[#22C55E]">Toda a sua operação.</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-3 leading-relaxed font-medium">
-                Você não precisa de três ferramentas diferentes. Finanças, rotinas e agenda vivem no mesmo sistema — o sistema operacional da sua rotina.
-              </p>
-            </div>
-
-            {/* Rotinas — Consistência */}
-            <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center mb-20 md:mb-24">
-              <div className="order-2 md:order-1 space-y-4 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-[#050505] text-[#22C55E]">
-                  <ListChecks className="w-4 h-4" strokeWidth={1.75} />
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest">Rotinas</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">
-                  <span className="text-[#22C55E]">Consistência</span> que vira resultado
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium max-w-md mx-auto md:mx-0">
-                  Não é sobre trabalhar mais, é sobre fazer o que importa. Gerencie suas tarefas diárias com a mesma precisão do seu financeiro.
-                </p>
-              </div>
-              <div className="order-1 md:order-2 flex justify-center md:justify-end px-2 sm:px-0">
-                <PhoneMockup
-                  src="/rotinas-sommar.jpg"
-                  alt="Módulo de Rotinas Sommar App"
-                  arrowSide="left"
-                />
-              </div>
-            </div>
-
-            {/* Compromissos — Controle */}
-            <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
-              <div className="flex justify-center md:justify-start px-2 sm:px-0">
-                <PhoneMockup
-                  src="/compromissos-sommar.jpg"
-                  alt="Módulo de Compromissos e Agenda Sommar App"
-                  arrowSide="right"
-                />
-              </div>
-              <div className="space-y-4 text-center md:text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-[#050505] text-[#22C55E]">
-                  <Calendar className="w-4 h-4" strokeWidth={1.75} />
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest">Compromissos</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">
-                  <span className="text-[#22C55E]">Controle</span> total do seu tempo
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium max-w-md mx-auto md:mx-0">
-                  Seu tempo é seu maior ativo. Centralize sua agenda e nunca mais perca um prazo ou oportunidade de negócio.
-                </p>
-                <button
-                  type="button"
-                  onClick={scrollToPricing}
-                  className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
-                >
-                  Ver oferta →
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* POR QUE O SOMMAR? */}
         <section className="max-w-4xl mx-auto px-4 py-20 border-b border-border/40">
           <div className="text-center max-w-xl mx-auto mb-14">
@@ -946,7 +877,7 @@ export default function App() {
               Por que o <span className="text-[#22C55E]">Sommar?</span>
             </h2>
             <p className="text-xs text-muted-foreground mt-2 leading-relaxed font-medium">
-              Tudo o que você precisa para operar como empreendedor — sem fragmentar sua rotina em apps isolados.
+              Tudo o que você precisa para operar como empreendedor — sem fragmentar sua gestão financeira em apps isolados.
             </p>
           </div>
 
@@ -955,9 +886,9 @@ export default function App() {
               <div className="w-9 h-9 rounded-lg border border-[#22C55E]/20 bg-[#22C55E]/5 flex items-center justify-center text-[#22C55E]">
                 <Layers className="w-4 h-4" strokeWidth={1.75} />
               </div>
-              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider block">Integração total</span>
+              <span className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider block">Visão unificada</span>
               <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-                O impacto das suas tarefas diárias refletido direto no seu fluxo de caixa.
+                Receitas, despesas e lucro real em um painel só — pessoal e empresarial integrados.
               </p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
@@ -975,7 +906,7 @@ export default function App() {
               </div>
               <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider block">Marinho IA 24h</span>
               <p className="text-xs text-muted-foreground font-medium leading-relaxed">
-                Lançamentos em massa via chat — sem formulários engessados.
+                Gerente Financeiro Digital: comandos em texto e leitura de comprovantes — sem planilhas.
               </p>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#050505] space-y-2">
@@ -1060,7 +991,7 @@ export default function App() {
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Bônus Incluso no plano</span>
                 <h4 className="text-xs font-extrabold text-white uppercase">MARINHO IA - SEU GERENTE FINANCEIRO 24H</h4>
-                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça planilhas ou preenchimentos manuais chatos. Você envia uma mensagem de texto corrido ou áudio no chat do WhatsApp/App e o Marinho processa, categoriza e separa o seu CPF do seu CNPJ automaticamente. É gestão de gente grande na velocidade de uma mensagem.</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Esqueça planilhas ou preenchimentos manuais chatos. Você envia uma mensagem de texto corrido ou a foto do seu comprovante/recibo diretamente no chat interno do aplicativo, e o Marinho processa, categoriza e separa tudo automaticamente. Sem preenchimento manual, direto na tela do seu celular.</p>
               </div>
             </div>
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
@@ -1073,7 +1004,7 @@ export default function App() {
             <div className="p-5 rounded-xl border border-border bg-[#060606] space-y-2 flex flex-col justify-between">
               <div>
                 <span className="text-[9px] font-extrabold text-[#22C55E] uppercase tracking-wider block mb-2">Valor Incalculável</span>
-                <h4 className="text-xs font-extrabold text-white uppercase">ACESSO VITALÍCIO ÀS ATUALIZAÇÕES DO ECOSSISTEMA</h4>
+                <h4 className="text-xs font-extrabold text-white uppercase">ACESSO VITALÍCIO ÀS ATUALIZAÇÕES DA PLATAFORMA</h4>
                 <p className="text-[11px] text-muted-foreground leading-relaxed font-medium pt-2">Você garante a versão V2 hoje e nunca mais pagará nenhuma mensalidade ou taxa adicional pelas próximas evoluções da nossa inteligência artificial. O seu preço fica blindado para sempre.</p>
               </div>
             </div>
@@ -1147,10 +1078,10 @@ export default function App() {
                   <div className="my-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-xs font-bold text-muted-foreground">R$</span>
-                      <span className="text-4xl font-extrabold text-white tracking-tight">29,90</span>
+                      <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
                       <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
                     </div>
-                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto. Total: R$ 30,89)</p>
+                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto. Total: R$ 40,89)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/80 font-medium">
@@ -1192,11 +1123,11 @@ export default function App() {
                     <span className="text-neutral-500 line-through text-[11px] font-bold block">De R$ 841,00</span>
                     <div className="flex items-baseline gap-1 mt-0.5 flex-wrap">
                       <span className="text-xs font-bold text-muted-foreground">Por apenas R$</span>
-                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">197,00</span>
+                      <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297,00</span>
                       <span className="text-[10px] font-bold text-neutral-500"> à vista</span>
                     </div>
                     <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto)</p>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 20,43 (COM TAXAS)</p>
+                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 29,70 (COM JUROS DA PLATAFORMA)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
