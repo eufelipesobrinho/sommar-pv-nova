@@ -61,6 +61,13 @@ const PROCESSING_MESSAGES = [
 type Page = 'quiz' | 'vendas' | 'obrigado';
 type DiagnosisAnswers = Record<(typeof DIAGNOSIS_QUESTIONS)[number]['id'], string>;
 
+function trackMetaCustom(eventName: string) {
+  const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+  if (typeof fbq === 'function') {
+    fbq('trackCustom', eventName);
+  }
+}
+
 type PhoneMockupProps = {
   src: string;
   alt: string;
@@ -268,6 +275,12 @@ function DiagnosisQuiz({ onComplete }: { onComplete: (pain: string) => void }) {
 
     return () => window.clearInterval(messageTimer);
   }, [isProcessing]);
+
+  // Pixel: etapas do quiz (perguntas são steps em estado, não rotas)
+  useEffect(() => {
+    if (currentQuestion === 1) trackMetaCustom('Sommar_Quiz_Step1_Done');
+    if (currentQuestion === 2) trackMetaCustom('Sommar_Quiz_Step2_Done');
+  }, [currentQuestion]);
 
   const handleAnswer = (answer: string) => {
     if (isAdvancing || isProcessing) return;
@@ -483,7 +496,7 @@ export default function App() {
     }
   }, [currentPage]);
 
-  // Disparo assíncrono purificado do Pixel e CAPI - Apenas PageView Estratégico
+  // Disparo assíncrono purificado do Pixel e CAPI - PageView / Purchase / Quiz Completed
   useEffect(() => {
     const PIXEL_ID = "1650440006207697";
     const CAPI_TOKEN = "EAB4hda1l5Q0BRXIWNYaekyTJ2LraBp2e3o8Mw3UCYrVgZAKmDVmNClZC98nUeBRFePBRuslzWrjpQfK6lsOsAd2sgvRIUm7Y0ZA7EpHtchZBFqs06aNW6ObZBvd0ZAv5mki2FvLiGuDDmKyE47u42fGOYBxNE8xsHPMi5vr4Yxk3bQo6X04CYZBSiLJVIG5tdlRIgZDZD";
@@ -497,6 +510,9 @@ export default function App() {
         globalWindow.fbq('track', 'Purchase', { value: 39.90, currency: 'BRL' });
       } else {
         globalWindow.fbq('track', 'PageView');
+      }
+      if (currentPage === 'vendas') {
+        globalWindow.fbq('trackCustom', 'Sommar_Quiz_Completed');
       }
     }
     
