@@ -672,6 +672,11 @@ export default function App() {
   // ----------------------------------------------------------------
   // PÁGINA DE VENDAS PRINCIPAL (PV)
   // ----------------------------------------------------------------
+  const salesPath =
+    typeof window !== 'undefined' ? window.location.pathname.replace(/\/+$/, '') || '/' : '';
+  const isOfficialLanding = salesPath === '/oficial';
+  const isQuizResult = salesPath === '/diagnostico';
+
   return (
     <div className="min-h-screen bg-[#040404] text-[#e5e5e5] font-sora selection:bg-[#22C55E]/30 overflow-x-hidden">
       
@@ -697,7 +702,7 @@ export default function App() {
         
         {/* 1. HERO SECTION - CPF x CNPJ */}
         <section className="max-w-4xl mx-auto px-4 pt-12 sm:pt-16 pb-12 text-center">
-          {diagnosisPain && (
+          {isQuizResult && diagnosisPain && (
             <div className="mx-auto mb-5 max-w-2xl rounded-2xl border border-[#22C55E]/25 bg-[#22C55E]/[0.07] px-4 py-3 text-left shadow-lg shadow-[#22C55E]/5">
               <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#4ADE80]">
                 Diagnóstico concluído
@@ -715,7 +720,21 @@ export default function App() {
           </div>
           
           <h1 className="text-2xl sm:text-4xl md:text-[2.65rem] font-extrabold uppercase tracking-tight text-white leading-[1.15] mb-6 max-w-3xl mx-auto">
-            Seu diagnóstico está pronto: O seu negócio está operando no escuro devido à falta de separação entre CPF e CNPJ. <span className="text-[#22C55E]">Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.</span>
+            {isOfficialLanding ? (
+              <>
+                Pare de operar no escuro: o controle financeiro inteligente para autônomos e MEIs.{' '}
+                <span className="text-[#22C55E]">
+                  Descubra o seu lucro real e separe seu CPF do CNPJ com o Sommar e o Marinho IA em menos de 2 minutos por dia.
+                </span>
+              </>
+            ) : (
+              <>
+                Seu diagnóstico está pronto: O seu negócio está operando no escuro devido à falta de separação entre CPF e CNPJ.{' '}
+                <span className="text-[#22C55E]">
+                  Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.
+                </span>
+              </>
+            )}
           </h1>
           
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
