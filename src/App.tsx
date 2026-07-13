@@ -61,10 +61,64 @@ const PROCESSING_MESSAGES = [
 type Page = 'quiz' | 'vendas' | 'obrigado';
 type DiagnosisAnswers = Record<(typeof DIAGNOSIS_QUESTIONS)[number]['id'], string>;
 
+function resolvePageFromPath(pathname: string): Page {
+  const path = pathname.replace(/\/+$/, '') || '/';
+  if (path === '/obrigado') return 'obrigado';
+  // Funil direto (LP oficial) e resultado do quiz → página de vendas
+  if (path === '/oficial' || path === '/diagnostico') return 'vendas';
+  return 'quiz';
+}
+
 function trackMetaCustom(eventName: string) {
-  const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
-  if (typeof fbq === 'function') {
-    fbq('trackCustom', eventName);
+  try {
+    const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', eventName);
+    }
+  } catch {
+    // WebView Android / Instagram: falha de ponte nativa não deve quebrar o quiz
+  }
+}
+
+/** Isola falhas de renderização do quiz (ex.: WebView Instagram Android). */
+class QuizErrorBoundary extends React.Component<
+  { children: React.ReactNode; onRecover?: () => void },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.warn('[QuizErrorBoundary]', error.message);
+  }
+
+  private recover = () => {
+    this.setState({ hasError: false });
+    this.props.onRecover?.();
+  };
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#020302] text-white font-sora flex flex-col items-center justify-center px-4 text-center gap-4">
+          <p className="text-sm font-medium text-white/70 max-w-sm">
+            Não foi possível carregar o diagnóstico neste navegador. Tente novamente.
+          </p>
+          <button
+            type="button"
+            onClick={this.recover}
+            className={`${PRIMARY_CTA} text-xs px-6 py-3`}
+          >
+            Tentar de novo
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
   }
 }
 
@@ -428,20 +482,17 @@ function DiagnosisQuiz({ onComplete }: { onComplete: (pain: string) => void }) {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('quiz');
+  const [currentPage, setCurrentPage] = useState<Page>(() =>
+    typeof window !== 'undefined' ? resolvePageFromPath(window.location.pathname) : 'quiz',
+  );
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [heroVideoActive, setHeroVideoActive] = useState(false);
   const [diagnosisPain, setDiagnosisPain] = useState('');
+  const [quizBoundaryKey, setQuizBoundaryKey] = useState(0);
 
   useEffect(() => {
     const handleLocation = () => {
-      if (window.location.pathname === '/obrigado') {
-        setCurrentPage('obrigado');
-      } else if (window.location.pathname === '/diagnostico') {
-        setCurrentPage('vendas');
-      } else {
-        setCurrentPage('quiz');
-      }
+      setCurrentPage(resolvePageFromPath(window.location.pathname));
     };
 
     const urlPain = new URLSearchParams(window.location.search).get('dor');
@@ -503,17 +554,23 @@ export default function App() {
     
     const isPurchase = currentPage === 'obrigado';
 
-    // Disparo do Pixel no Navegador (Acesso dinâmico para ignorar erro de tipagem do TS)
+    // Disparo do Pixel no Navegador (protegido contra falhas de WebView)
     const globalWindow = window as any;
-    if (globalWindow.fbq) {
-      if (isPurchase) {
-        globalWindow.fbq('track', 'Purchase', { value: 39.90, currency: 'BRL' });
-      } else {
-        globalWindow.fbq('track', 'PageView');
+    try {
+      if (globalWindow.fbq) {
+        if (isPurchase) {
+          globalWindow.fbq('track', 'Purchase', { value: 39.90, currency: 'BRL' });
+        } else {
+          globalWindow.fbq('track', 'PageView');
+        }
+        // Só marca quiz concluído no funil com diagnóstico — nunca na LP /oficial
+        const path = window.location.pathname.replace(/\/+$/, '');
+        if (currentPage === 'vendas' && path === '/diagnostico') {
+          globalWindow.fbq('trackCustom', 'Sommar_Quiz_Completed');
+        }
       }
-      if (currentPage === 'vendas') {
-        globalWindow.fbq('trackCustom', 'Sommar_Quiz_Completed');
-      }
+    } catch {
+      // Instagram/Android WebView: postMessage nativo pode falhar sem quebrar a SPA
     }
     
     // Disparo da API de Conversões (CAPI - Servidor Back-end)
@@ -602,7 +659,14 @@ export default function App() {
   }
 
   if (currentPage === 'quiz') {
-    return <DiagnosisQuiz onComplete={completeDiagnosis} />;
+    return (
+      <QuizErrorBoundary
+        key={quizBoundaryKey}
+        onRecover={() => setQuizBoundaryKey((k) => k + 1)}
+      >
+        <DiagnosisQuiz onComplete={completeDiagnosis} />
+      </QuizErrorBoundary>
+    );
   }
 
   // ----------------------------------------------------------------
