@@ -69,6 +69,44 @@ function resolvePageFromPath(pathname: string): Page {
   return 'quiz';
 }
 
+/** Normaliza dor da URL/estado para matching sem acentos ou encoding quebrado. */
+function normalizePainText(rawPain: string): string {
+  let decoded = rawPain.trim();
+  try {
+    decoded = decodeURIComponent(decoded.replace(/\+/g, ' '));
+  } catch {
+    // já decodificado (ex.: URLSearchParams)
+  }
+  return decoded
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
+/**
+ * Traduz a dor bruta do quiz em complemento gramaticalmente correto
+ * para a headline de /diagnostico (nunca injeta o texto cru).
+ */
+function resolveDiagnosisHeadlineComplement(rawPain: string): string {
+  const pain = normalizePainText(rawPain);
+
+  if (pain.includes('planilha') || pain.includes('caderno')) {
+    return 'devido à perda de tempo com planilhas e cadernos';
+  }
+  if (
+    pain.includes('separacao') ||
+    pain.includes('cpf') ||
+    pain.includes('misturo') ||
+    pain.includes('pessoal')
+  ) {
+    return 'devido à perigosa falta de separação entre CPF e CNPJ';
+  }
+  if (pain.includes('cabeca') || pain.includes('nao gerencio')) {
+    return 'pelo fato de você gerenciar tudo apenas de cabeça';
+  }
+  return 'devido à falta de clareza nos números';
+}
+
 function trackMetaCustom(eventName: string) {
   try {
     const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
@@ -729,8 +767,8 @@ export default function App() {
               </>
             ) : (
               <>
-                Seu diagnóstico está pronto: O seu negócio está operando no escuro devido a{' '}
-                {diagnosisPain || 'falta de separação entre CPF e CNPJ'}.{' '}
+                Seu diagnóstico está pronto: O seu negócio está operando no escuro{' '}
+                {resolveDiagnosisHeadlineComplement(diagnosisPain)}.{' '}
                 <span className="text-[#22C55E]">
                   Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.
                 </span>
