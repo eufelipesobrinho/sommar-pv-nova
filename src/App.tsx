@@ -729,7 +729,8 @@ export default function App() {
               </>
             ) : (
               <>
-                Seu diagnóstico está pronto: O seu negócio está operando no escuro devido à falta de separação entre CPF e CNPJ.{' '}
+                Seu diagnóstico está pronto: O seu negócio está operando no escuro devido a{' '}
+                {diagnosisPain || 'falta de separação entre CPF e CNPJ'}.{' '}
                 <span className="text-[#22C55E]">
                   Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.
                 </span>
