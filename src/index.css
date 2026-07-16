@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
+/* Fonte Sora carregada de forma não-bloqueante via index.html (sem @import) */
 
 @theme {
-  --font-sora: 'Sora', sans-serif;
+  --font-sora: 'Sora', system-ui, -apple-system, sans-serif;
   
   --color-background: #050505;
   --color-foreground: #f5f5f5;
