@@ -317,29 +317,37 @@ export default function App() {
     const savedMedium = sessionStorage.getItem("utm_medium");
     const savedCampaign = sessionStorage.getItem("utm_campaign");
 
-    if (savedSource || savedMedium || savedCampaign) {
-      setTimeout(() => {
-        const links = document.querySelectorAll("a");
-        links.forEach(link => {
-          let href = link.href;
-          if (href && (href.includes("cakto.com") || href.includes("pay.cakto"))) {
-            try {
-              let url = new URL(href);
-              if (savedSource) {
-                url.searchParams.set("utm_source", savedSource);
-                url.searchParams.set("src", savedSource);
-              }
-              if (savedMedium) url.searchParams.set("utm_medium", savedMedium);
-              if (savedCampaign) url.searchParams.set("utm_campaign", savedCampaign);
+    if (!savedSource && !savedMedium && !savedCampaign) return;
 
-              link.href = url.toString();
-            } catch (e) {
-              console.error("Erro ao processar URL de checkout:", e);
-            }
+    // Reaplica após o lazy load da SalesPage (links Cakto ainda não existem em t=0)
+    const injectCaktoUtms = () => {
+      document.querySelectorAll("a").forEach((link) => {
+        const href = link.href;
+        if (!href || (!href.includes("cakto.com") && !href.includes("pay.cakto"))) return;
+        try {
+          const url = new URL(href);
+          if (savedSource) {
+            url.searchParams.set("utm_source", savedSource);
+            url.searchParams.set("src", savedSource);
           }
-        });
-      }, 300);
-    }
+          if (savedMedium) url.searchParams.set("utm_medium", savedMedium);
+          if (savedCampaign) url.searchParams.set("utm_campaign", savedCampaign);
+          link.href = url.toString();
+        } catch {
+          // URL inválida — não interrompe o clique no checkout
+        }
+      });
+    };
+
+    injectCaktoUtms();
+    const t1 = window.setTimeout(injectCaktoUtms, 100);
+    const t2 = window.setTimeout(injectCaktoUtms, 600);
+    const t3 = window.setTimeout(injectCaktoUtms, 1500);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+    };
   }, [currentPage]);
 
   useEffect(() => {

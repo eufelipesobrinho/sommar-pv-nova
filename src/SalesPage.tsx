@@ -1,4 +1,4 @@
-import { useState, useEffect, type MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
   CheckCircle2, 
@@ -259,8 +259,7 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [heroVideoActive, setHeroVideoActive] = useState(false);
 
-  const scrollToPricing = (e?: MouseEvent) => {
-    e?.preventDefault();
+  const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -320,7 +319,7 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
               <>
                 Pare de operar no escuro: o controle financeiro inteligente para autônomos e MEIs.{' '}
                 <span className="text-[#22C55E]">
-                  Descubra o seu lucro real e separe seu CPF do CNPJ com o Sommar e o Marinho IA em menos de 2 minutos por dia.
+                  Descubra o seu lucro real e separe seu CPF do CNPJ com o Sommar e a nossa inteligência artificial em menos de 2 minutos por dia.
                 </span>
               </>
             ) : (
@@ -328,7 +327,7 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
                 Seu diagnóstico está pronto: O seu negócio está operando no escuro{' '}
                 {resolveDiagnosisHeadlineComplement(diagnosisPain)}.{' '}
                 <span className="text-[#22C55E]">
-                  Aqui está como o Sommar e o Marinho IA vão te devolver o controle do lucro real em menos de 2 minutos por dia.
+                  Aqui está como o Sommar e a nossa inteligência artificial vão te devolver o controle do lucro real em menos de 2 minutos por dia.
                 </span>
               </>
             )}
