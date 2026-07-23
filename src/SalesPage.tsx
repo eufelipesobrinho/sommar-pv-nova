@@ -15,6 +15,7 @@ import {
   MousePointerClick,
   Info
 } from "lucide-react";
+import { buildAppSignupUrl } from './signupUrl';
 
 const PRIMARY_CTA =
   'inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold uppercase tracking-widest rounded-xl shadow-lg shadow-[#22C55E]/25 hover:scale-[1.02] active:scale-[0.99] transition-transform duration-200';
@@ -110,12 +111,6 @@ function PhoneMockup({ src, alt, priority = false, arrowSide = 'left' }: PhoneMo
   );
 }
 
-const VALUE_STACK_ITEMS = [
-  { label: 'Sistema de Controle Duplo (CPF/CNPJ)', price: 'R$ 297/ano' },
-  { label: 'Inteligência Artificial Marinho IA Integrada', price: 'R$ 397/ano' },
-  { label: 'Suporte VIP Direto com os Fundadores', price: 'R$ 147/ano' },
-] as const;
-
 const SOCIAL_PROOF_SLIDES = [
   {
     src: '/prova1.webp',
@@ -203,12 +198,72 @@ function SocialProofCarousel() {
   );
 }
 
+type TrialCtaProps = {
+  label?: string;
+  compact?: boolean;
+  className?: string;
+  linkClassName?: string;
+};
+
+function TrialCta({
+  label,
+  compact = false,
+  className = '',
+  linkClassName,
+}: TrialCtaProps) {
+  const displayLabel = label ?? (compact ? 'Testar Grátis' : 'Comece Seu Teste Grátis de 7 Dias');
+  const resolvedLinkClassName =
+    linkClassName ??
+    (compact
+      ? 'text-[10px] sm:text-xs px-4 sm:px-5 py-2.5 sm:py-3'
+      : 'w-full sm:w-auto text-xs sm:text-sm px-10 py-5 shadow-2xl shadow-[#22C55E]/20');
+
+  return (
+    <div className={`flex flex-col items-center ${className}`}>
+      <a
+        href={buildAppSignupUrl()}
+        className={`${PRIMARY_CTA} ${resolvedLinkClassName}`}
+      >
+        {displayLabel} <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      </a>
+      {!compact && (
+        <div className="mt-3 text-center space-y-1">
+          <p className="text-[10px] sm:text-[11px] text-muted-foreground font-medium">
+            Acesso imediato • Sem cadastrar cartão de crédito
+          </p>
+          <p className="text-[10px] sm:text-[11px] text-muted-foreground font-medium">
+            7 dias grátis para explorar o app • Cancele quando quiser
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SameEmailNotice({ className = '' }: { className?: string }) {
+  return (
+    <div
+      className={`max-w-lg mx-auto p-4 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] flex gap-4 items-start ${className}`}
+    >
+      <div className="w-9 h-9 rounded-lg border border-amber-500/30 bg-amber-500/10 flex items-center justify-center text-amber-400 flex-shrink-0 mt-0.5">
+        <Info className="w-4 h-4" strokeWidth={1.75} aria-hidden />
+      </div>
+      <p className="text-xs text-muted-foreground font-medium leading-relaxed text-left">
+        <strong className="text-amber-300/95">
+          Use o mesmo e-mail do cadastro Sommar quando for assinar depois do teste.
+        </strong>{' '}
+        Assim seu acesso é liberado automaticamente em segundos.
+      </p>
+    </div>
+  );
+}
+
 function TrustBadges({ className = '' }: { className?: string }) {
   const items = [
     {
       icon: ShieldCheck,
-      title: '7 Dias de Garantia Incondicional',
-      desc: 'Teste sem risco. Não gostou? Devolvemos 100%.',
+      title: '7 dias grátis sem cartão',
+      desc: 'Sem cadastrar cartão',
     },
     {
       icon: Lock,
@@ -217,8 +272,8 @@ function TrustBadges({ className = '' }: { className?: string }) {
     },
     {
       icon: MousePointerClick,
-      title: 'Cancelamento sem burocracia',
-      desc: 'Cancele quando quiser, sem complicação.',
+      title: 'Cancele quando quiser',
+      desc: 'Sem burocracia ou complicação.',
     },
   ] as const;
 
@@ -226,7 +281,7 @@ function TrustBadges({ className = '' }: { className?: string }) {
     <div
       className={`grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto ${className}`}
       role="list"
-      aria-label="Garantias de compra segura"
+      aria-label="Benefícios do teste gratuito"
     >
       {items.map(({ icon: Icon, title, desc }) => (
         <div
@@ -259,9 +314,20 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [heroVideoActive, setHeroVideoActive] = useState(false);
 
-  const scrollToPricing = () => {
-    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  useEffect(() => {
+    document.title = 'Sommar App — 7 Dias Grátis | Controle Financeiro';
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute(
+      'content',
+      'Teste o Sommar App grátis por 7 dias — sem cartão. Separe CPF e CNPJ, controle lucro real e use o Marinho IA no controle financeiro pessoal e empresarial.',
+    );
+  }, []);
 
   const toggleFaq = (index: number) => {
     setActiveFaq((current) => (current === index ? null : index));
@@ -284,12 +350,7 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
               <span className="text-[#22C55E]">Sommar</span> <span className="text-white">App</span>
             </span>
           </div>
-          <button
-            onClick={scrollToPricing}
-            className={`${PRIMARY_CTA} text-[10px] sm:text-xs px-4 sm:px-5 py-2.5 sm:py-3`}
-          >
-            VER OFERTA <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <TrialCta compact className="items-end sm:items-center" />
         </div>
       </header>
 
@@ -303,38 +364,41 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
                 Diagnóstico concluído
               </p>
               <p className="mt-1 text-xs font-semibold leading-relaxed text-white/80">
-                Pelo seu perfil, o principal gargalo hoje é: <strong className="text-white">{diagnosisPain}</strong>. Veja como o Sommar ajuda a resolver isso sem planilhas.
+                Seu diagnóstico está pronto. Crie sua conta grátis e comece agora.
+              </p>
+              <p className="mt-2 text-[11px] text-muted-foreground leading-relaxed">
+                Pelo seu perfil, o principal gargalo hoje é: <strong className="text-white">{diagnosisPain}</strong>.
               </p>
             </div>
           )}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-white/[0.02] mb-6">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
             <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white/80">
-              Para autônomos, prestadores e MEIs
+              7 dias grátis • Sem cartão
             </span>
           </div>
           
           <h1 className="text-2xl sm:text-4xl md:text-[2.65rem] font-extrabold uppercase tracking-tight text-white leading-[1.15] mb-6 max-w-3xl mx-auto">
             {isOfficialLanding ? (
               <>
-                Pare de operar no escuro: o controle financeiro inteligente para autônomos e MEIs.{' '}
+                Controle seu lucro por 7 dias grátis — pessoal e empresarial,{' '}
                 <span className="text-[#22C55E]">
-                  Descubra o seu lucro real e separe seu CPF do CNPJ com o Sommar e a nossa inteligência artificial em menos de 2 minutos por dia.
+                  com Marinho IA. Separe CPF e CNPJ e veja seu lucro real em minutos por dia.
                 </span>
               </>
             ) : (
               <>
-                Seu diagnóstico está pronto: O seu negócio está operando no escuro{' '}
+                Seu negócio está operando no escuro{' '}
                 {resolveDiagnosisHeadlineComplement(diagnosisPain)}.{' '}
                 <span className="text-[#22C55E]">
-                  Aqui está como o Sommar e a nossa inteligência artificial vão te devolver o controle do lucro real em menos de 2 minutos por dia.
+                  Crie sua conta grátis agora e teste o Sommar por 7 dias — sem cartão.
                 </span>
               </>
             )}
           </h1>
           
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 font-medium leading-relaxed">
-            O Sommar separa suas finanças pessoais das da empresa em um só lugar. Você descobre, em minutos, quanto seu negócio realmente lucra — <span className="text-white">sem confundir salário com faturamento.</span>
+            O Sommar separa suas finanças pessoais das da empresa em um só lugar. Teste grátis por 7 dias, sem cadastrar cartão — e descubra quanto seu negócio realmente lucra, <span className="text-white">sem confundir salário com faturamento.</span>
           </p>
 
           {/* VÍDEO DE DEMONSTRAÇÃO — embed adiado até o clique (LCP) */}
@@ -377,12 +441,8 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-5 max-w-2xl mx-auto">
-            <button
-              onClick={scrollToPricing}
-              className={`${PRIMARY_CTA} w-full sm:w-auto text-xs sm:text-sm px-10 py-5 shadow-2xl shadow-[#22C55E]/20`}
-            >
-              QUERO SEPARAR MINHAS FINANÇAS <ArrowRight className="w-4 h-4" />
-            </button>
+            <TrialCta />
+            <SameEmailNotice className="w-full" />
             <TrustBadges />
           </div>
         </section>
@@ -414,6 +474,38 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
           </div>
         </section>
 
+        {/* COMO FUNCIONA — TESTE GRÁTIS */}
+        <section className="max-w-4xl mx-auto px-4 py-16 border-b border-border/40">
+          <div className="text-center max-w-xl mx-auto mb-10">
+            <span className="text-[10px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-3 py-1 rounded-full uppercase tracking-widest">
+              Como funciona
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-4">
+              Três passos para <span className="text-[#22C55E]">começar grátis</span>
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] font-black text-sm flex items-center justify-center">1</div>
+              <h3 className="text-xs font-extrabold text-white uppercase tracking-wide">Crie sua conta grátis</h3>
+              <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">Sem cartão de crédito. Acesso imediato ao app.</p>
+            </div>
+            <div className="p-6 rounded-xl border border-border bg-[#060606] text-center flex flex-col items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] font-black text-sm flex items-center justify-center">2</div>
+              <h3 className="text-xs font-extrabold text-white uppercase tracking-wide">Use o Sommar por 7 dias</h3>
+              <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">Explore CPF/CNPJ, Marinho IA e todas as funcionalidades.</p>
+            </div>
+            <div className="p-6 rounded-xl border border-[#22C55E]/30 bg-[#22C55E]/[0.03] text-center flex flex-col items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] font-black text-sm flex items-center justify-center">3</div>
+              <h3 className="text-xs font-extrabold text-white uppercase tracking-wide">Gostou? Assine e continue</h3>
+              <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
+                Escolha um plano com o <strong className="text-white">mesmo e-mail</strong> e siga de onde parou.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* INTERMEZZO DE COPY */}
         <section className="max-w-2xl mx-auto text-center py-16 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground font-medium leading-relaxed">
@@ -434,13 +526,12 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-medium">
                 O Sommar mostra quanto entrou, quanto saiu e <strong className="text-white">quanto sobrou de lucro de verdade</strong> — sem você montar planilha.
               </p>
-              <button
-                type="button"
-                onClick={scrollToPricing}
-                className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4"
+              <a
+                href={buildAppSignupUrl()}
+                className="text-[#22C55E] text-xs font-extrabold uppercase tracking-wider hover:underline underline-offset-4 inline-flex items-center gap-1"
               >
-                Ver oferta e começar →
-              </button>
+                Comece seu teste grátis de 7 dias →
+              </a>
             </div>
             
             <PhoneMockup src="/lancar-sommar.webp" alt="Interface de Lançamentos Sommar" arrowSide="left" />
@@ -555,9 +646,9 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
               <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                 Visualize o <strong className="text-white">capital disponível</strong>, sua <strong className="text-white">evolução patrimonial</strong> e onde estão as <strong className="text-red-400">sangrias do seu mês.</strong>
               </p>
-              <button onClick={scrollToPricing} className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-black font-extrabold text-xs uppercase tracking-widest px-5 py-3.5 rounded-xl">
-                ATIVAR MINHA DIREÇÃO LUCRATIVA <ArrowRight className="w-4 h-4" />
-              </button>
+              <TrialCta
+                linkClassName="w-full text-xs uppercase tracking-widest px-5 py-3.5 shadow-xl shadow-[#22C55E]/20"
+              />
             </div>
             
             <PhoneMockup src="/resumo-sommar.webp" alt="Análise de Dados Gráficos Finanças" arrowSide="left" />
@@ -723,52 +814,23 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
           </div>
         </section>
 
-        {/* 9. OFERTA E PREÇO - PRICING SECTION */}
-        <section id="pricing" className="border-t border-border bg-white/[0.01] py-24 px-4 scroll-mt-16">
+        {/* 9. PLANOS APÓS O TESTE */}
+        <section id="planos" className="border-t border-border bg-white/[0.01] py-24 px-4 scroll-mt-16">
           <div className="max-w-4xl mx-auto">
             <div className="text-center max-w-xl mx-auto mb-10">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
-                Separe CPF e CNPJ hoje. <span className="text-[#22C55E]">Veja seu lucro real.</span>
+                Planos <span className="text-[#22C55E]">após o teste</span>
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground mt-4 leading-relaxed font-medium">
-                Escolha o plano ideal para o seu momento — com acesso completo a tudo, do controle duplo ao Marinho IA.
+                Os valores abaixo valem apenas se você decidir continuar após os 7 dias grátis. O pagamento é feito dentro do app — comece agora sem cartão e escolha depois.
               </p>
             </div>
 
-            {/* Empilhamento de Valor */}
-            <div className="max-w-lg mx-auto mb-12">
-              <p className="text-[10px] font-extrabold text-[#22C55E] uppercase tracking-widest text-center mb-4">O que você levaria separado</p>
-              <div className="rounded-2xl border border-border bg-[#060606] overflow-hidden">
-                <ul className="divide-y divide-border/60">
-                  {VALUE_STACK_ITEMS.map(({ label, price }) => (
-                    <li key={label} className="flex items-center justify-between gap-4 px-5 py-4">
-                      <span className="text-[11px] sm:text-xs text-white/90 font-medium leading-snug">{label}</span>
-                      <span className="text-[10px] sm:text-[11px] text-neutral-500 font-bold whitespace-nowrap flex-shrink-0">
-                        Valor Normal: <span className="line-through">{price}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="px-5 py-4 bg-red-500/[0.06] border-t border-red-500/20 flex items-center justify-between gap-4">
-                  <span className="text-[11px] font-extrabold text-white uppercase tracking-wide">Valor Total Somado</span>
-                  <span className="text-sm font-extrabold text-red-400 line-through">R$ 841,00/ano</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="max-w-2xl mx-auto mb-6 p-4 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] text-center">
-              <p className="text-[10px] sm:text-[11px] text-amber-300 font-extrabold uppercase tracking-wider leading-relaxed">
-                ⚠️ ATENÇÃO: As condições de juros reduzidos da Cakto e os bônus exclusivos inclusos são garantidos apenas para as adesões realizadas durante esta janela de lançamento.
-              </p>
-            </div>
-
-            {/* Cards de Preço */}
             <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto items-stretch">
-              {/* CARD A — Plano Mensal */}
               <div className="p-6 rounded-2xl border border-border bg-[#060606] flex flex-col justify-between">
                 <div>
                   <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Mensal</h3>
-                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Ideal para validar sua gestão.</p>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Flexibilidade mês a mês após o teste.</p>
 
                   <div className="my-6">
                     <div className="flex items-baseline gap-1">
@@ -776,7 +838,6 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
                       <span className="text-4xl font-extrabold text-white tracking-tight">39,90</span>
                       <span className="text-[10px] font-bold text-neutral-500"> /mês</span>
                     </div>
-                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto. Total: R$ 40,89)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/80 font-medium">
@@ -786,43 +847,24 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Cancele quando quiser</li>
                   </ul>
                 </div>
-
-                <div className="pt-6">
-                  <a
-                    href="https://pay.cakto.com.br/ni9nrpf_687767"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 border border-border bg-white/[0.03] text-white font-extrabold text-[11px] uppercase tracking-widest py-4 rounded-xl hover:bg-white/[0.06] transition-colors"
-                  >
-                    QUERO O PLANO MENSAL
-                  </a>
-                </div>
               </div>
 
-              {/* CARD B — Plano Anual (Destaque) */}
-              <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow animate-pulse-glow sm:scale-[1.02] sm:-my-1">
+              <div className="p-6 rounded-2xl border-2 border-[#22C55E] bg-[#060606] flex flex-col justify-between relative shadow-xl card-glow sm:scale-[1.02] sm:-my-1">
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#22C55E] text-black text-[8px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
-                  ★ Mais vendido / Melhor custo-benefício
+                  Melhor custo-benefício
                 </span>
 
                 <div>
-                  <div className="flex items-center gap-2 flex-wrap mt-1">
-                    <h3 className="text-base font-extrabold text-white uppercase tracking-wider">Plano Anual</h3>
-                    <span className="bg-[#22C55E]/15 border border-[#22C55E]/30 text-[#22C55E] text-[8px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full">
-                      Mais Vendido
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">A melhor escolha para blindar seu preço e destravar os bônus de maior valor.</p>
+                  <h3 className="text-base font-extrabold text-white uppercase tracking-wider mt-1">Plano Anual</h3>
+                  <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">Economia para quem quer continuar no longo prazo.</p>
 
                   <div className="my-6">
-                    <span className="text-neutral-500 line-through text-[11px] font-bold block">De R$ 841,00</span>
-                    <div className="flex items-baseline gap-1 mt-0.5 flex-wrap">
-                      <span className="text-xs font-bold text-muted-foreground">Por apenas R$</span>
+                    <div className="flex items-baseline gap-1 flex-wrap">
+                      <span className="text-xs font-bold text-muted-foreground">R$</span>
                       <span className="text-4xl font-extrabold text-[#22C55E] tracking-tight">297,00</span>
-                      <span className="text-[10px] font-bold text-neutral-500"> à vista</span>
+                      <span className="text-[10px] font-bold text-neutral-500"> /ano</span>
                     </div>
-                    <p className="text-[9px] text-neutral-500 font-medium mt-2">(+ R$ 0,99 taxa fixa de serviço Cakto)</p>
-                    <p className="text-[9px] text-[#22C55E] font-bold mt-2 uppercase tracking-wider">OU EM ATÉ 12X DE R$ 29,70 (COM JUROS DA PLATAFORMA)</p>
+                    <p className="text-[10px] text-[#22C55E] font-bold mt-2">(~R$ 24,75/mês)</p>
                   </div>
 
                   <ul className="flex flex-col gap-2.5 border-t border-border/40 pt-5 text-[11px] text-white/90 font-medium">
@@ -830,27 +872,15 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
                     <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> E-book "O Lucro Real do Empreendedor"</li>
                     <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Suporte VIP com os Fundadores</li>
                     <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Atualizações vitalícias inclusas</li>
-                    <li className="flex items-center gap-2 pl-2"><CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E] flex-shrink-0" /> Lucro Real e Margem automáticos</li>
                   </ul>
-                </div>
-
-                <div className="pt-6 flex flex-col items-center">
-                  <a
-                    href="https://pay.cakto.com.br/itbvz49"
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`${PRIMARY_CTA} w-full text-center text-[10px] sm:text-[11px] py-4 shadow-xl shadow-[#22C55E]/20`}
-                  >
-                    QUERO O PLANO ANUAL COM DESCONTO <ArrowRight className="w-4 h-4" />
-                  </a>
-                  <span className="relative mt-3 inline-flex items-center justify-center bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] text-[8px] font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-lg">
-                    <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#060606] border-l border-t border-[#22C55E]/30 rotate-45" aria-hidden />
-                    MELHOR CUSTO-BENEFÍCIO
-                  </span>
                 </div>
               </div>
             </div>
-            
+
+            <SameEmailNotice className="mt-10" />
+
+            <TrialCta className="mt-8" />
+
             <TrustBadges className="mt-10" />
           </div>
         </section>
@@ -881,18 +911,18 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
           </div>
         </section>
 
-        {/* 11. GARANTIA - GUARANTEE SECTION */}
+        {/* 11. TESTE GRÁTIS */}
         <section className="max-w-4xl mx-auto px-4 py-16">
           <div className="p-8 max-w-2xl mx-auto rounded-3xl gradient-border flex flex-col items-center gap-4 text-center">
-            <span className="text-[9px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-0.5 rounded uppercase tracking-widest">Garantia Total</span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">Garantia <span className="text-[#22C55E]">Incondicional</span> de 7 dias</h2>
+            <span className="text-[9px] font-extrabold text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-2.5 py-0.5 rounded uppercase tracking-widest">Teste sem risco</span>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white uppercase tracking-tight">Teste grátis de <span className="text-[#22C55E]">7 dias</span> sem cartão</h2>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto leading-relaxed font-medium">
-              Acreditamos tanto no poder do Sommar App que oferecemos uma garantia sem riscos. Experimente todas as funcionalidades por 7 dias. Se por qualquer motivo você não ficar satisfeito, <strong className="text-white">devolvemos 100% do seu dinheiro.</strong> Sem perguntas, sem burocracia.
+              Crie sua conta, explore todas as funcionalidades por 7 dias e decida depois se quer continuar. Sem cadastrar cartão de crédito — cancele quando quiser.
             </p>
             <div className="flex gap-4 text-[10px] text-[#22C55E] font-bold uppercase tracking-wider pt-2">
-              <span>✓ Reembolso total</span>
-              <span>✓ Sem perguntas</span>
-              <span>✓ Risco zero</span>
+              <span>✓ 7 dias grátis</span>
+              <span>✓ Sem cartão</span>
+              <span>✓ Acesso imediato</span>
             </div>
           </div>
         </section>
@@ -907,10 +937,26 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
 
             <div className="flex flex-col gap-3 max-w-xl mx-auto">
               {[
-                { q: "Meus dados estão seguros?", a: "Sim. O Sommar usa ambiente seguro com proteção de dados no mesmo nível de bancos digitais. Suas informações financeiras ficam privadas e protegidas." },
-                { q: "Preciso de conta em algum banco específico?", a: "Não. Você pode usar com qualquer banco. Basta registrar seus gastos e receitas — o Sommar faz a separação entre pessoal e empresa para você." },
-                { q: "Como recebo o acesso?", a: "Assim que o pagamento for confirmado, você recebe um e-mail com seu login para acessar o app em app.sommarapp.com.br." },
-                { q: "Como funciona a garantia de 7 dias?", a: "Você tem 7 dias para testar. Se não gostar, cancela com 1 clique na plataforma de pagamento e recebe 100% do valor de volta, sem burocracia." }
+                {
+                  q: 'Como funciona o teste grátis?',
+                  a: 'Você cria sua conta no app Sommar sem cartão e usa tudo por 7 dias. Depois desse período, se quiser continuar, escolhe o plano mensal ou anual — use o mesmo e-mail do cadastro no pagamento para liberar o acesso na hora.',
+                },
+                {
+                  q: 'Preciso pagar agora?',
+                  a: 'Não. O teste é gratuito e não pede cartão no cadastro. O pagamento só acontece se você decidir continuar após os 7 dias.',
+                },
+                {
+                  q: 'Como recebo o acesso?',
+                  a: 'Crie sua conta grátis em app.sommarapp.com.br/cadastro. O acesso é imediato e você tem 7 dias para usar todas as funcionalidades do Sommar.',
+                },
+                {
+                  q: 'Meus dados estão seguros?',
+                  a: 'Sim. O Sommar usa ambiente seguro com proteção de dados no mesmo nível de bancos digitais. Suas informações financeiras ficam privadas e protegidas.',
+                },
+                {
+                  q: 'Preciso de conta em algum banco específico?',
+                  a: 'Não. Você pode usar com qualquer banco. Basta registrar seus gastos e receitas — o Sommar faz a separação entre pessoal e empresa para você.',
+                },
               ].map((item, index) => (
                 <div key={index} className="border border-border bg-[#060606] rounded-xl overflow-hidden">
                   <button onClick={() => toggleFaq(index)} className="w-full flex items-center justify-between p-4 text-left font-bold text-xs sm:text-sm text-white uppercase tracking-wide hover:bg-white/[0.01]">
@@ -935,14 +981,9 @@ export default function SalesPage({ diagnosisPain }: SalesPageProps) {
               Separe suas contas. <span className="text-[#22C55E]">Veja seu lucro real.</span>
             </h3>
             <p className="text-xs text-muted-foreground font-medium leading-relaxed max-w-sm mx-auto">
-              Escolha seu plano e comece hoje — com 7 dias de garantia se não for para você.
+              Comece grátis por 7 dias — sem cartão. Cancele quando quiser.
             </p>
-            <button
-              onClick={scrollToPricing}
-              className={`${PRIMARY_CTA} text-xs px-8 py-4`}
-            >
-              QUERO O ACESSO <ArrowRight className="w-4 h-4" />
-            </button>
+            <TrialCta />
           </div>
         </section>
 

@@ -177,7 +177,7 @@ function DiagnosisQuiz({ onComplete }: { onComplete: (pain: string) => void }) {
               <div className="relative space-y-7 text-center transition-all duration-500">
                 <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#22C55E]/25 bg-[#22C55E]/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.22em] text-[#4ADE80]">
                   <Sparkles className="h-3.5 w-3.5" aria-hidden />
-                  Diagnóstico gratuito
+                  Diagnóstico + 7 dias grátis
                 </div>
 
                 <div className="space-y-4">
@@ -185,7 +185,7 @@ function DiagnosisQuiz({ onComplete }: { onComplete: (pain: string) => void }) {
                     Descubra em 1 minuto por que você trabalha tanto e não vê a cor do seu lucro líquido.
                   </h1>
                   <p className="mx-auto max-w-sm text-sm font-medium leading-relaxed text-white/62">
-                    Este diagnóstico rápido analisa a saúde financeira de autônomos, MEIs e prestadores de serviços.
+                    Este diagnóstico rápido analisa a saúde financeira de autônomos, MEIs e prestadores. Depois, teste o Sommar por 7 dias grátis — sem cartão.
                   </p>
                 </div>
 
@@ -308,46 +308,15 @@ export default function App() {
     const utmSource = urlParams.get("utm_source");
     const utmMedium = urlParams.get("utm_medium");
     const utmCampaign = urlParams.get("utm_campaign");
+    const utmContent = urlParams.get("utm_content");
+    const utmTerm = urlParams.get("utm_term");
 
     if (utmSource) sessionStorage.setItem("utm_source", utmSource);
     if (utmMedium) sessionStorage.setItem("utm_medium", utmMedium);
     if (utmCampaign) sessionStorage.setItem("utm_campaign", utmCampaign);
-
-    const savedSource = sessionStorage.getItem("utm_source");
-    const savedMedium = sessionStorage.getItem("utm_medium");
-    const savedCampaign = sessionStorage.getItem("utm_campaign");
-
-    if (!savedSource && !savedMedium && !savedCampaign) return;
-
-    // Reaplica após o lazy load da SalesPage (links Cakto ainda não existem em t=0)
-    const injectCaktoUtms = () => {
-      document.querySelectorAll("a").forEach((link) => {
-        const href = link.href;
-        if (!href || (!href.includes("cakto.com") && !href.includes("pay.cakto"))) return;
-        try {
-          const url = new URL(href);
-          if (savedSource) {
-            url.searchParams.set("utm_source", savedSource);
-            url.searchParams.set("src", savedSource);
-          }
-          if (savedMedium) url.searchParams.set("utm_medium", savedMedium);
-          if (savedCampaign) url.searchParams.set("utm_campaign", savedCampaign);
-          link.href = url.toString();
-        } catch {
-          // URL inválida — não interrompe o clique no checkout
-        }
-      });
-    };
-
-    injectCaktoUtms();
-    const t1 = window.setTimeout(injectCaktoUtms, 100);
-    const t2 = window.setTimeout(injectCaktoUtms, 600);
-    const t3 = window.setTimeout(injectCaktoUtms, 1500);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-      window.clearTimeout(t3);
-    };
+    if (utmContent) sessionStorage.setItem("utm_content", utmContent);
+    if (utmTerm) sessionStorage.setItem("utm_term", utmTerm);
+    if (utmSource) sessionStorage.setItem("src", utmSource);
   }, [currentPage]);
 
   useEffect(() => {
@@ -407,7 +376,11 @@ export default function App() {
   const completeDiagnosis = (pain: string) => {
     sessionStorage.setItem('sommar_diagnosis_pain', pain);
     setDiagnosisPain(pain);
-    window.history.pushState({}, '', `/diagnostico?dor=${encodeURIComponent(pain)}`);
+
+    // Preserva UTMs ao ir para /diagnostico
+    const next = new URLSearchParams(window.location.search);
+    next.set('dor', pain);
+    window.history.pushState({}, '', `/diagnostico?${next.toString()}`);
     setCurrentPage('vendas');
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
